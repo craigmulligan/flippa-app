@@ -14,7 +14,7 @@ import Auth from './containers/Auth'
 const gqlEndpoint = 'http://192.168.1.108:4000/api'
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = await Expo.SecureStore.getItemAsync('flippaToken')
+  const token = await Expo.SecureStore.getItemAsync('token')
   const ctx = {
     headers: {
       ...headers,
@@ -37,7 +37,9 @@ export default class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <View style={styles.container}>
-          <Auth />
+          <Auth>
+            <UserList />
+          </Auth>
         </View>
       </ApolloProvider>
     );
