@@ -1,30 +1,62 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 
-import UserList from './containers/UserList'
-import Auth from './containers/Auth'
+import Login from './components/auth/Login'
+import Verify from './components/auth/Verify'
+import Loading from './components/Loading'
+import Feed from './components/Feed'
+import Explore from './components/Explore'
+import Profile from './components/Profile'
+
 import client from './src/apollo/client'
 
-export default class App extends React.Component {
+import { StackNavigator, TabNavigator } from 'react-navigation'
+
+const App = TabNavigator(
+  {
+    Feed: {
+      screen: Feed
+    },
+    Explore: {
+      screen: Explore
+    },
+    Notifications: {
+      screen: Explore
+    },
+    Store: {
+      screen: Profile
+    }
+  },
+  {
+    tabBarPosition: 'bottom',
+    animationEnabled: true,
+    tabBarOptions: {
+      activeTintColor: '#e91e63'
+    }
+  }
+)
+
+const RootNavigator = StackNavigator(
+  {
+    Login: { screen: Login },
+    Verify: { screen: Verify },
+    App: { screen: App },
+    Loading: { screen: Loading }
+  },
+  {
+    initialRouteName: 'Loading',
+    navigationOptions: {
+      headerMode: 'none'
+    }
+  }
+)
+
+export default class Root extends React.Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <View style={styles.container}>
-          <Auth>
-            <UserList />
-          </Auth>
-        </View>
+        <RootNavigator />
       </ApolloProvider>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
