@@ -2,6 +2,10 @@
   "expo": {
     "sdkVersion": "23.0.0",
     "privacy": "public",
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#FFFFFF",
+    },
     "extra": {
       "api": "http://api.flippa.co.za/graphql"
     }
