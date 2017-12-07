@@ -44,5 +44,13 @@
     "react-apollo": "2.0.1",
     "react-native": "0.50.3",
     "react-native-elements": "0.18.4"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hobochild/flippa-app.git"
+  },
+  "release": {
+    "publish": "@semantic-release/github"
   }
 }
