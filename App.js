@@ -1,33 +1,10 @@
 import React from 'react'
-import Expo from 'expo'
 import { StyleSheet, View } from 'react-native'
-
 import { ApolloProvider } from 'react-apollo'
-import { ApolloClient } from 'apollo-client'
-import { createHttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { setContext } from 'apollo-link-context'
 
 import UserList from './containers/UserList'
 import Auth from './containers/Auth'
-
-const gqlEndpoint = 'http://192.168.1.108:4000/api'
-
-const authLink = setContext(async (_, { headers }) => {
-  const token = await Expo.SecureStore.getItemAsync('token')
-  const ctx = {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : undefined
-    }
-  }
-  return ctx
-})
-
-const client = new ApolloClient({
-  link: authLink.concat(createHttpLink({ uri: gqlEndpoint })),
-  cache: new InMemoryCache()
-})
+import client from './src/apollo/client'
 
 export default class App extends React.Component {
   render() {
