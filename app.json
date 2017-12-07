@@ -1,5 +1,9 @@
 {
   "expo": {
-    "sdkVersion": "23.0.0"
+    "sdkVersion": "23.0.0",
+    "privacy": "public",
+    "extra": {
+      "api": "http://api.flippa.co.za/graphql"
+    }
   }
 }
