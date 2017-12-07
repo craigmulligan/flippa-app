@@ -1,7 +1,6 @@
 import React from 'react'
 import Expo from 'expo'
 import { View } from 'react-native'
-import { FormLabel, FormInput } from 'react-native-elements'
 import PhoneNumber from 'awesome-phonenumber'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
@@ -9,7 +8,7 @@ import Login from '../components/auth/Login.js'
 import Verify from '../components/auth/Verify'
 
 class Auth extends React.Component {
-  constructor(props, context) {
+  constructor(props) {
     super(props)
     this.state = {
       step: 0,
@@ -18,7 +17,7 @@ class Auth extends React.Component {
     }
   }
 
-  setPhoneNumber = async (value) => {
+  setPhoneNumber = async value => {
     this.setState({ phoneNumber: value })
     const pn = PhoneNumber(value, 'UK')
     if (pn.isValid()) {
@@ -29,7 +28,7 @@ class Auth extends React.Component {
     }
   }
 
-  setVerificationCode = async (value) => {
+  setVerificationCode = async value => {
     this.setState({ verificationCode: value })
     if (value.length === 6) {
       try {
@@ -42,7 +41,7 @@ class Auth extends React.Component {
         await Expo.SecureStore.setItemAsync('token', data.verifyCode)
         this.setState({ step: 2 })
       } catch (err) {
-        console.log(err)
+        // console.log(err)
       }
     }
   }
@@ -50,27 +49,23 @@ class Auth extends React.Component {
   render() {
     switch (this.state.step) {
       case 1:
-        return(
+        return (
           <View>
             <Verify
-            verificationCode={this.state.verificationCode}
-            setVerificationCode={this.setVerificationCode}
+              verificationCode={this.state.verificationCode}
+              setVerificationCode={this.setVerificationCode}
             />
           </View>
         )
       case 2:
-        return(
-          <View>
-            {this.props.children}
-          </View>
-        )
+        return <View>{this.props.children}</View>
       default:
-        return(
+        return (
           <View>
             <Login
               phoneNumber={this.state.phoneNumber}
               setPhoneNumber={this.setPhoneNumber}
-              />
+            />
           </View>
         )
     }
@@ -78,13 +73,13 @@ class Auth extends React.Component {
 }
 
 const LoginMutation = gql`
-  mutation($phoneNumber: String!){
+  mutation($phoneNumber: String!) {
     login(phoneNumber: $phoneNumber)
   }
 `
 
-const VerifyMutation =  gql`
-  mutation($phoneNumber: String!, $verificationCode: String!){
+const VerifyMutation = gql`
+  mutation($phoneNumber: String!, $verificationCode: String!) {
     verifyCode(phoneNumber: $phoneNumber, verificationCode: $verificationCode)
   }
 `
@@ -92,4 +87,4 @@ const VerifyMutation =  gql`
 export default compose(
   graphql(LoginMutation, { name: 'login' }),
   graphql(VerifyMutation, { name: 'verify' })
-)(Auth);
+)(Auth)

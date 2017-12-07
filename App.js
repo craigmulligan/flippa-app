@@ -1,6 +1,6 @@
-import React from 'react';
-import Expo from 'expo';
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import Expo from 'expo'
+import { StyleSheet, View } from 'react-native'
 
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
@@ -21,6 +21,7 @@ const authLink = setContext(async (_, { headers }) => {
       authorization: token ? `Bearer ${token}` : undefined
     }
   }
+  return ctx
 })
 
 const client = new ApolloClient({
@@ -29,10 +30,6 @@ const client = new ApolloClient({
 })
 
 export default class App extends React.Component {
-  state = {
-    client: client
-  }
-
   render() {
     return (
       <ApolloProvider client={client}>
@@ -42,7 +39,7 @@ export default class App extends React.Component {
           </Auth>
         </View>
       </ApolloProvider>
-    );
+    )
   }
 }
 
@@ -51,6 +48,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    justifyContent: 'center'
+  }
+})

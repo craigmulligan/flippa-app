@@ -2,10 +2,7 @@ import React from 'react'
 import { FormLabel, FormInput } from 'react-native-elements'
 import { View } from 'react-native'
 
-export default ({
-  setVerificationCode,
-  verificationCode
-}) => {
+export default ({ setVerificationCode, verificationCode }) => {
   return (
     <View>
       <FormLabel>Enter verificationCode:</FormLabel>
