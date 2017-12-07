@@ -19,7 +19,7 @@ const UserList = ({ data }) => {
   }
   return (
     <View>
-      <Text>Hii</Text>
+      <Text>Feed</Text>
     </View>
   )
 }

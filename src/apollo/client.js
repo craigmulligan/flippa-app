@@ -12,6 +12,7 @@ import constants from '../../constants'
 // cache token so we don't have to look up for every request
 let token
 const withToken = setContext(async (operation, { headers }) => {
+  // console.log(operation)
   if (token)
     return {
       ...headers,
