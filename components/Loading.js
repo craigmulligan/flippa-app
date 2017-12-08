@@ -13,7 +13,6 @@ export default class App extends React.Component {
   _checkAuth = async () => {
     const token = await SecureStore.getItemAsync('token')
     if (token) {
-      console.log(token)
       this.props.navigation.navigate('App')
     } else {
       this.props.navigation.navigate('Login')
