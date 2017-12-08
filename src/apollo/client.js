@@ -1,4 +1,4 @@
-import Expo from 'expo'
+import { SecureStore } from 'expo'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -12,17 +12,19 @@ import constants from '../../constants'
 // cache token so we don't have to look up for every request
 let token
 const withToken = setContext(async (operation, { headers }) => {
-  // console.log(operation)
-  if (token)
-    return {
-      ...headers,
-      authorization: `Bearer ${token}`
-    }
+  if (!token) {
+    token = await SecureStore.getItemAsync('token')
+  }
 
-  Expo.SecureStore.getItemAsync('token').then(token => ({
-    ...headers,
-    authorization: `Bearer ${token}` || null
-  }))
+  // console.log('op', operation)
+  // console.log('headers', headers)
+  // console.log('req', token)
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : null
+    }
+  }
 })
 
 const resetToken = onError(({ networkError }) => {

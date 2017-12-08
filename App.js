@@ -1,4 +1,5 @@
 import React from 'react'
+import { Platform, StatusBar } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
 
 import Login from './components/auth/Login'
@@ -7,6 +8,7 @@ import Loading from './components/Loading'
 import Feed from './components/Feed'
 import Explore from './components/Explore'
 import Profile from './components/Profile'
+import Sell from './components/Sell'
 
 import client from './src/apollo/client'
 
@@ -19,6 +21,9 @@ const App = TabNavigator(
     },
     Explore: {
       screen: Explore
+    },
+    Sell: {
+      screen: Sell
     },
     Notifications: {
       screen: Explore
@@ -47,6 +52,10 @@ const RootNavigator = StackNavigator(
     initialRouteName: 'Loading',
     navigationOptions: {
       headerMode: 'none'
+    },
+    cardStyle: {
+      // https://github.com/react-community/react-navigation/issues/1478
+      paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
     }
   }
 )
