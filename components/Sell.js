@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-import { FormLabel, FormInput, Button } from 'react-native-elements'
-import { View } from 'react-native'
+import { ImagePicker } from 'expo'
+import { FormLabel, FormInput, Button, Tile } from 'react-native-elements'
+import { View, ScrollView, ActivityIndicator, StyleSheet, Text } from 'react-native'
+
+import Image from './feed/Image'
+
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
@@ -19,13 +23,46 @@ class Sell extends Component {
     this.state = {
       title: '',
       description: '',
-      price: ''
+      price: '',
+      image: null,
+      uploading: ''
+    }
+  }
+
+  _pickImage = async () => {
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    this._handleImagePicked(pickerResult);
+  }
+
+  _handleImagePicked = async pickerResult => {
+    let uploadResponse, uploadResult;
+
+    try {
+      this.setState({ uploading: true });
+      setTimeout(() => {
+        this.setState({ uploading: false })
+      }, 10000);
+
+      if (!pickerResult.cancelled) {
+        this.setState({ image: pickerResult.uri });
+      }
+    } catch (e) {
+      console.log({ uploadResponse });
+      console.log({ uploadResult });
+      console.log({ e });
+      alert('Upload failed, sorry :(');
+    } finally {
+      // this.setState({ uploading: false });
     }
   }
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <FormLabel>Title</FormLabel>
         <FormInput
           value={this.state.title}
@@ -37,6 +74,14 @@ class Sell extends Component {
           value={this.state.description}
           onChangeText={value => this.setState({ description: value })}
           placeholder={'Description ... '}
+        />
+        <Button
+          onPress={this._pickImage}
+          title="Pick an image from camera roll"
+        />
+        <Image
+          loading={this.state.uploading}
+          source={{ uri: this.state.image }}
         />
         <FormLabel>Price</FormLabel>
         <FormInput
@@ -57,7 +102,7 @@ class Sell extends Component {
             })
           }}
            />
-      </View>
+      </ScrollView>
     )
   }
 }
