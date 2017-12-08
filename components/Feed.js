@@ -33,8 +33,7 @@ const PostList = ({ data, ...props }) => {
           data={Posts}
           renderItem={({ item }) => (
             <Card
-              title={`${item.title}`}
-              description={item.description}
+              {...item}
             />
           )}
           keyExtractor={item => item.id}
@@ -55,6 +54,12 @@ export default graphql(gql`
       id
       title
       description
+      user {
+        phoneNumber
+      }
+      file {
+        url
+      }
     }
   }
 `)(PostList)

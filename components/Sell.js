@@ -2,17 +2,26 @@ import React, { Component } from 'react'
 import { ImagePicker } from 'expo'
 import { FormLabel, FormInput, Button, Tile } from 'react-native-elements'
 import { View, ScrollView, ActivityIndicator, StyleSheet, Text } from 'react-native'
+import { ReactNativeFile } from 'apollo-upload-client'
 
 import Image from './feed/Image'
 
 import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 
 const createPostMutation = gql`
   mutation ($input: PostInput!) {
     createPost(input: $input) {
       id
       title
+    }
+  }
+`
+
+const uploadImageMutation = gql`
+  mutation($file: Upload!) {
+    singleUpload(file: $file) {
+      id
     }
   }
 `
@@ -25,6 +34,7 @@ class Sell extends Component {
       description: '',
       price: '',
       image: null,
+      fileId: null,
       uploading: ''
     }
   }
@@ -43,12 +53,20 @@ class Sell extends Component {
 
     try {
       this.setState({ uploading: true });
-      setTimeout(() => {
-        this.setState({ uploading: false })
-      }, 10000);
 
       if (!pickerResult.cancelled) {
         this.setState({ image: pickerResult.uri });
+        // console.log(pickerResult)
+        const f = new ReactNativeFile({
+          uri: pickerResult.uri,
+          type: 'image/jpeg',
+          name: 'photo.jpg'
+        })
+
+        const { data } = await this.props.uploadImage({ variables: { file: f } })
+        this.setState({
+          fileId: data.singleUpload.id
+        })
       }
     } catch (e) {
       console.log({ uploadResponse });
@@ -56,7 +74,7 @@ class Sell extends Component {
       console.log({ e });
       alert('Upload failed, sorry :(');
     } finally {
-      // this.setState({ uploading: false });
+      this.setState({ uploading: false });
     }
   }
 
@@ -94,12 +112,19 @@ class Sell extends Component {
           backgroundColor='#03A9F4'
           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
           title='Post'
-          onPress={() => {
-            return this.props.mutate({
+          onPress={async () => {
+            const {
+              uploading,
+              image,
+              ...rest
+            } = this.state
+
+            await this.props.createPost({
               variables: {
-                input: this.state
+                input: rest
               }
             })
+            this.props.navigation.navigate('Feed')
           }}
            />
       </ScrollView>
@@ -107,4 +132,7 @@ class Sell extends Component {
   }
 }
 
-export default graphql(createPostMutation)(Sell)
+export default compose(
+  graphql(uploadImageMutation, { name: 'uploadImage' }),
+  graphql(createPostMutation, { name: 'createPost' })
+)(Sell)

@@ -3,9 +3,10 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
-
 import { ApolloLink, from } from 'apollo-link'
 import { onError } from 'apollo-link-error'
+
+import { createUploadLink } from 'apollo-upload-client'
 
 import constants from '../../constants'
 
@@ -45,7 +46,7 @@ const client = new ApolloClient({
   link: from([
     withToken.concat(resetToken),
     debugLink,
-    new HttpLink({ uri: constants.api })
+    createUploadLink({ uri: constants.api })
   ]),
   cache: new InMemoryCache()
 })

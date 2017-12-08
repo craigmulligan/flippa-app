@@ -39,6 +39,7 @@
     "apollo-upload-client": "^7.0.0-alpha.1",
     "awesome-phonenumber": "2.2.2",
     "expo": "^23.0.4",
+    "extract-files": "^2.0.1",
     "graphql": "^0.11.7",
     "graphql-tag": "2.5.0",
     "react": "16.0.0",
