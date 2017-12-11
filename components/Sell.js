@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { ImagePicker } from 'expo'
 import { FormLabel, FormInput, Button } from 'react-native-elements'
-import {
-  ScrollView,
-} from 'react-native'
+import { ScrollView } from 'react-native'
 import { ReactNativeFile } from 'apollo-upload-client'
 
 import Image from './feed/Image'

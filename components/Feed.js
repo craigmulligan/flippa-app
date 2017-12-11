@@ -10,7 +10,7 @@ const PostList = ({ data }) => {
   const { loading, error, Posts, refetch } = data
 
   if (loading) {
-   // console.log(loading)
+    // console.log(loading)
   }
   if (error) {
     // console.log(error)
