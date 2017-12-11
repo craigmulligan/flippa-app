@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { ImagePicker } from 'expo'
-import { FormLabel, FormInput, Button } from 'react-native-elements'
-import { ScrollView } from 'react-native'
+import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
+import { ScrollView, StyleSheet } from 'react-native'
 import { ReactNativeFile } from 'apollo-upload-client'
-
-import Image from './feed/Image'
-
+import shortid from 'shortid'
+import { Image, ImageForm } from './components'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
+import { theme } from './constants'
+import store from './redux'
+import * as queries from './apollo/queries'
 
 const createPostMutation = gql`
   mutation($input: PostInput!) {
@@ -34,18 +36,33 @@ class Sell extends Component {
       description: '',
       price: '',
       image: null,
-      fileId: null,
+      files: [],
       uploading: ''
+    }
+  }
+  static navigationOptions = {
+    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+    tabBarIcon: ({ tintColor, focused }) => {
+      return (
+        <Icon
+          color={focused ? tintColor : theme.colors.grayDark}
+          name="camera"
+        />
+      )
     }
   }
 
   _pickImage = async () => {
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3]
-    })
+    try {
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3]
+      })
 
-    this._handleImagePicked(pickerResult)
+      this._handleImagePicked(pickerResult)
+    } catch (err) {
+      // console.log(err)
+    }
   }
 
   _handleImagePicked = async pickerResult => {
@@ -54,18 +71,18 @@ class Sell extends Component {
 
       if (!pickerResult.cancelled) {
         this.setState({ image: pickerResult.uri })
-        // console.log(pickerResult)
+        const type = pickerResult.uri.slice(-3)
         const f = new ReactNativeFile({
           uri: pickerResult.uri,
-          type: 'image/jpeg',
-          name: 'photo.jpg'
+          type: `image/${type}`,
+          name: `${shortid.generate()}.jpg`
         })
-
         const { data } = await this.props.uploadImage({
           variables: { file: f }
         })
+
         this.setState({
-          fileId: data.singleUpload.id
+          files: [...this.state.files, data.singleUpload.id]
         })
       }
     } catch (e) {
@@ -77,7 +94,15 @@ class Sell extends Component {
 
   render() {
     return (
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={styles.contentContainer}
+        style={styles.container}
+      >
+        {!this.state.image && <ImageForm onPress={this._pickImage} />}
+        <Image
+          loading={this.state.uploading}
+          source={{ uri: this.state.image }}
+        />
         <FormLabel>Title</FormLabel>
         <FormInput
           value={this.state.title}
@@ -89,14 +114,6 @@ class Sell extends Component {
           value={this.state.description}
           onChangeText={value => this.setState({ description: value })}
           placeholder={'Description ... '}
-        />
-        <Button
-          onPress={this._pickImage}
-          title="Pick an image from camera roll"
-        />
-        <Image
-          loading={this.state.uploading}
-          source={{ uri: this.state.image }}
         />
         <FormLabel>Price</FormLabel>
         <FormInput
@@ -110,8 +127,7 @@ class Sell extends Component {
           buttonStyle={{
             borderRadius: 0,
             marginLeft: 0,
-            marginRight: 0,
-            marginBottom: 0
+            marginRight: 0
           }}
           title="Post"
           onPress={async () => {
@@ -121,7 +137,20 @@ class Sell extends Component {
             await this.props.createPost({
               variables: {
                 input: rest
-              }
+              },
+              refetchqueries: [
+                {
+                  query: 'sellingQuery',
+                  variables: {
+                    filter: {
+                      where: {
+                        userId: store.getState().currentUser.id
+                      }
+                    }
+                  }
+                },
+                'feedQuery'
+              ]
             })
             this.props.navigation.navigate('Feed')
           }}
@@ -131,7 +160,18 @@ class Sell extends Component {
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: theme.colors.grayMedium,
+    padding: 10
+  },
+  contentContainer: {
+    paddingBottom: 20
+  }
+})
+
 export default compose(
   graphql(uploadImageMutation, { name: 'uploadImage' }),
+  graphql(queries.GET_CURRENT_USER, { name: 'currentUser' }),
   graphql(createPostMutation, { name: 'createPost' })
 )(Sell)

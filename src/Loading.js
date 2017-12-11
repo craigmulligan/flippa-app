@@ -1,8 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { AppLoading, SecureStore } from 'expo'
+import { graphql } from 'react-apollo'
+import * as queries from './apollo/queries'
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -13,6 +15,14 @@ export default class App extends React.Component {
   _checkAuth = async () => {
     const token = await SecureStore.getItemAsync('token')
     if (token) {
+      await this.props.mutate({
+        variables: {
+          user: {
+            token
+          }
+        }
+      })
+
       this.props.navigation.navigate('App')
     } else {
       this.props.navigation.navigate('Login')
@@ -33,3 +43,5 @@ export default class App extends React.Component {
     return <View style={{ flex: 1 }} />
   }
 }
+
+export default graphql(queries.UPDATE_CURRENT_USER)(App)

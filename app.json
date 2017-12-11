@@ -4,10 +4,10 @@
     "privacy": "public",
     "splash": {
       "image": "./assets/splash.png",
-      "backgroundColor": "#FFFFFF",
+      "backgroundColor": "#FFFFFF"
     },
     "extra": {
-      "api": "http://api.flippa.co.za/graphql"
+      "api": "https://flippa-35259.appspot.com"
     }
   }
 }

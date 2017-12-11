@@ -1,18 +1,22 @@
 import React from 'react'
 import { Platform, StatusBar } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
-
-import Login from './components/auth/Login'
-import Verify from './components/auth/Verify'
-import Loading from './components/Loading'
-import Feed from './components/Feed'
-import Explore from './components/Explore'
-import Profile from './components/Profile'
-import Sell from './components/Sell'
-
+import Login from './src/auth/Login'
+import Verify from './src/auth/Verify'
+import Loading from './src/Loading'
+import Feed from './src/Feed'
+import Explore from './src/Explore'
+import Sell from './src/Sell'
+import Notifications from './src/Notifications'
 import client from './src/apollo/client'
-
 import { StackNavigator, TabNavigator } from 'react-navigation'
+import Store from './src/Profile/Store'
+import Post from './src/Explore/Post'
+import Edit from './src/Profile/Edit'
+import store, { actions } from './src/redux'
+import { Provider } from 'react-redux'
+import { theme } from './src/constants'
+import styles from './src/styles'
 
 const App = TabNavigator(
   {
@@ -26,17 +30,25 @@ const App = TabNavigator(
       screen: Sell
     },
     Notifications: {
-      screen: Explore
+      screen: Notifications
     },
-    Store: {
-      screen: Profile
+    Profile: {
+      screen: Store,
+      path: '/profile/:id'
     }
   },
   {
     tabBarPosition: 'bottom',
+    initialRouteName: 'Explore',
     animationEnabled: true,
     tabBarOptions: {
-      activeTintColor: '#e91e63'
+      activeTintColor: theme.colors.blue,
+      showIcon: true,
+      showLabel: false,
+      style: styles.tabBar,
+      indicatorStyle: {
+        backgroundColor: 'transparent'
+      }
     }
   }
 )
@@ -46,12 +58,31 @@ const RootNavigator = StackNavigator(
     Login: { screen: Login },
     Verify: { screen: Verify },
     App: { screen: App },
+    Post: {
+      screen: Post,
+      path: '/Post/:id'
+    },
+    Store: {
+      screen: Store,
+      path: '/Store/:id'
+    },
+    EditProfile: {
+      screen: Edit,
+      path: '/profile/:id/edit'
+    },
     Loading: { screen: Loading }
   },
   {
     initialRouteName: 'Loading',
-    navigationOptions: {
-      headerMode: 'none'
+    navigationOptions: ({ navigation }) => {
+      store.dispatch(
+        actions.setNavigation({
+          rootNavigation: navigation
+        })
+      )
+      return {
+        header: null
+      }
     },
     cardStyle: {
       // https://github.com/react-community/react-navigation/issues/1478
@@ -63,9 +94,11 @@ const RootNavigator = StackNavigator(
 export default class Root extends React.Component {
   render() {
     return (
-      <ApolloProvider client={client}>
-        <RootNavigator />
-      </ApolloProvider>
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <RootNavigator />
+        </ApolloProvider>
+      </Provider>
     )
   }
 }
