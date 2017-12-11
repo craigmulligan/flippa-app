@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { ImagePicker } from 'expo'
-import { FormLabel, FormInput, Button } from 'react-native-elements'
+import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native'
 import { ReactNativeFile } from 'apollo-upload-client'
 
@@ -39,22 +39,32 @@ class Sell extends Component {
     }
   }
 
-  _pickImage = async () => {
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3]
-    })
+  static navigationOptions = {
+    tabBarIcon: ({ tintColor }) => {
+      return (<Icon name='camera'/>)
+    }
+  }
 
-    this._handleImagePicked(pickerResult)
+  _pickImage = async () => {
+    try {
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3]
+      })
+
+      this._handleImagePicked(pickerResult)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   _handleImagePicked = async pickerResult => {
     try {
       this.setState({ uploading: true })
-
+      
+      console.log('pick!')
       if (!pickerResult.cancelled) {
         this.setState({ image: pickerResult.uri })
-        // console.log(pickerResult)
         const f = new ReactNativeFile({
           uri: pickerResult.uri,
           type: 'image/jpeg',
@@ -64,6 +74,7 @@ class Sell extends Component {
         const { data } = await this.props.uploadImage({
           variables: { file: f }
         })
+        console.log(this.state)
         this.setState({
           fileId: data.singleUpload.id
         })
@@ -78,6 +89,15 @@ class Sell extends Component {
   render() {
     return (
       <ScrollView>
+        <Button
+          buttonStyle={{ marginTop: 15 }}
+          onPress={this._pickImage}
+          title="Pick an image from camera roll"
+        />
+        <Image
+          loading={this.state.uploading}
+          source={{ uri: this.state.image }}
+        />
         <FormLabel>Title</FormLabel>
         <FormInput
           value={this.state.title}
@@ -89,14 +109,6 @@ class Sell extends Component {
           value={this.state.description}
           onChangeText={value => this.setState({ description: value })}
           placeholder={'Description ... '}
-        />
-        <Button
-          onPress={this._pickImage}
-          title="Pick an image from camera roll"
-        />
-        <Image
-          loading={this.state.uploading}
-          source={{ uri: this.state.image }}
         />
         <FormLabel>Price</FormLabel>
         <FormInput

@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-const ExploreList = ({ data }) => {
+const NofificationList = ({ data }) => {
   const loading = data.loading
   const error = data.error
   const users = data.Users
@@ -20,22 +20,22 @@ const ExploreList = ({ data }) => {
   }
   return (
     <View>
-      <Text>Explore</Text>
+      <Text>Notifications</Text>
     </View>
   )
 }
 
-ExploreList.navigationOptions = {
+NofificationList.navigationOptions = {
   tabBarIcon: ({ tintColor }) => {
-    return (<Icon name='explore' />)
+    return (<Icon name='notifications' />)
   }
 }
 
 export default graphql(gql`
-  query ListUsers {
+  query Notifications {
     Users {
       id
       phoneNumber
     }
   }
-`)(ExploreList)
+`)(NofificationList)

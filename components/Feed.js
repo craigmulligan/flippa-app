@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { View, Text, FlatList, ActivityIndicator } from 'react-native'
+import { Icon } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import Card from './feed/Post'
@@ -13,7 +14,7 @@ const PostList = ({ data }) => {
     // console.log(loading)
   }
   if (error) {
-    // console.log(error)
+    console.log(error)
   }
   if (Posts) {
     // console.log(users)
@@ -21,7 +22,6 @@ const PostList = ({ data }) => {
 
   return (
     <View>
-      <Text>Feed</Text>
       {Posts ? (
         <FlatList
           data={Posts}
@@ -31,11 +31,19 @@ const PostList = ({ data }) => {
           onRefresh={refetch}
         />
       ) : (
-        <Text>Loading</Text>
+        <ActivityIndicator />
       )}
     </View>
   )
 }
+
+PostList.navigationOptions = {
+  // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+  tabBarIcon: ({ tintColor }) => (
+   <Icon
+    name='home' /> 
+  ),
+};
 
 export default graphql(gql`
   query PostList {
@@ -43,7 +51,9 @@ export default graphql(gql`
       id
       title
       description
+      price
       user {
+        displayName
         phoneNumber
       }
       file {

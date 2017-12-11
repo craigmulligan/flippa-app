@@ -9,6 +9,7 @@ import Feed from './components/Feed'
 import Explore from './components/Explore'
 import Profile from './components/Profile'
 import Sell from './components/Sell'
+import Notifications from './components/Notifications'
 
 import client from './src/apollo/client'
 
@@ -26,7 +27,7 @@ const App = TabNavigator(
       screen: Sell
     },
     Notifications: {
-      screen: Explore
+      screen: Notifications 
     },
     Store: {
       screen: Profile
@@ -36,7 +37,9 @@ const App = TabNavigator(
     tabBarPosition: 'bottom',
     animationEnabled: true,
     tabBarOptions: {
-      activeTintColor: '#e91e63'
+      activeTintColor: '#e91e63',
+      showIcon: true,
+      showLabel: false,
     }
   }
 )

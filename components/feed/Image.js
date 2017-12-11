@@ -2,20 +2,21 @@ import React from 'react'
 import { ImageBackground, ActivityIndicator } from 'react-native'
 
 export default ({ source, loading }) => {
+  console.log('source', source)
   return (
-    <ImageBackground
+      source.uri ? 
+      <ImageBackground
       style={{
-        width: 300,
+        width: undefined, 
         height: 300,
-        marginLeft: 15,
         flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'stretch',
         justifyContent: 'center'
       }}
       source={source}
     >
       {loading ? <ActivityIndicator /> : null}
     </ImageBackground>
-  )
+    : null
+    )
 }

@@ -9,5 +9,15 @@ const getHostMachine = () => {
 
 export default {
   api: isDev ? getHostMachine() : Constants.manifest.extra.api,
-  verificationCodeLength: 4
+  verificationCodeLength: 4,
+  theme: {
+    colors: {
+      blue: '#2892D7',      
+      blueDark: '#1B3B6F',
+      blueLight: '#6DAEDB',
+      green: '#06D6A0',
+      gray: '#D3D3D3'
+    }, 
+    space: 10
+  }
 }
