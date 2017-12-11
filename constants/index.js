@@ -9,5 +9,5 @@ const getHostMachine = () => {
 
 export default {
   api: isDev ? getHostMachine() : Constants.manifest.extra.api,
-  verificationCodeLength: 6
+  verificationCodeLength: 4
 }

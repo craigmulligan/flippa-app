@@ -1,28 +1,33 @@
-import Expo from 'expo'
+import { SecureStore } from 'expo'
 import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
-
 import { ApolloLink, from } from 'apollo-link'
 import { onError } from 'apollo-link-error'
 
+import { createUploadLink } from 'apollo-upload-client'
+
 import constants from '../../constants'
 
+const addAuthHeader = token => {
+  return token
+    ? {
+        Authorization: `Bearer ${token}`
+      }
+    : undefined
+}
 // cache token so we don't have to look up for every request
 let token
 const withToken = setContext(async (operation, { headers }) => {
-  // console.log(operation)
-  if (token)
-    return {
+  if (!token) {
+    token = await SecureStore.getItemAsync('token')
+  }
+  return {
+    headers: {
       ...headers,
-      authorization: `Bearer ${token}`
+      ...addAuthHeader(token)
     }
-
-  Expo.SecureStore.getItemAsync('token').then(token => ({
-    ...headers,
-    authorization: `Bearer ${token}` || null
-  }))
+  }
 })
 
 const resetToken = onError(({ networkError }) => {
@@ -43,7 +48,7 @@ const client = new ApolloClient({
   link: from([
     withToken.concat(resetToken),
     debugLink,
-    new HttpLink({ uri: constants.api })
+    createUploadLink({ uri: constants.api })
   ]),
   cache: new InMemoryCache()
 })
