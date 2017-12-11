@@ -1,8 +1,7 @@
 import React from 'react'
 import { ImageBackground, ActivityIndicator } from 'react-native'
 
-export default ({ source, loading, style, children }) => {
-  console.log(source)
+export default ({ source, loading }) => {
   return (
     <ImageBackground
       style={{
@@ -10,15 +9,13 @@ export default ({ source, loading, style, children }) => {
         height: 300,
         marginLeft: 15,
         flex: 1,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'center'
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}
       source={source}
     >
-      {
-        loading ? <ActivityIndicator /> : null
-      }
+      {loading ? <ActivityIndicator /> : null}
     </ImageBackground>
   )
 }

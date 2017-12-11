@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { ImagePicker } from 'expo'
-import { FormLabel, FormInput, Button, Tile } from 'react-native-elements'
-import { View, ScrollView, ActivityIndicator, StyleSheet, Text } from 'react-native'
+import { FormLabel, FormInput, Button } from 'react-native-elements'
+import {
+  ScrollView,
+} from 'react-native'
 import { ReactNativeFile } from 'apollo-upload-client'
 
 import Image from './feed/Image'
@@ -10,7 +12,7 @@ import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 
 const createPostMutation = gql`
-  mutation ($input: PostInput!) {
+  mutation($input: PostInput!) {
     createPost(input: $input) {
       id
       title
@@ -42,20 +44,18 @@ class Sell extends Component {
   _pickImage = async () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [4, 3],
-    });
+      aspect: [4, 3]
+    })
 
-    this._handleImagePicked(pickerResult);
+    this._handleImagePicked(pickerResult)
   }
 
   _handleImagePicked = async pickerResult => {
-    let uploadResponse, uploadResult;
-
     try {
-      this.setState({ uploading: true });
+      this.setState({ uploading: true })
 
       if (!pickerResult.cancelled) {
-        this.setState({ image: pickerResult.uri });
+        this.setState({ image: pickerResult.uri })
         // console.log(pickerResult)
         const f = new ReactNativeFile({
           uri: pickerResult.uri,
@@ -63,18 +63,17 @@ class Sell extends Component {
           name: 'photo.jpg'
         })
 
-        const { data } = await this.props.uploadImage({ variables: { file: f } })
+        const { data } = await this.props.uploadImage({
+          variables: { file: f }
+        })
         this.setState({
           fileId: data.singleUpload.id
         })
       }
     } catch (e) {
-      console.log({ uploadResponse });
-      console.log({ uploadResult });
-      console.log({ e });
-      alert('Upload failed, sorry :(');
+      alert('Upload failed, sorry :(')
     } finally {
-      this.setState({ uploading: false });
+      this.setState({ uploading: false })
     }
   }
 
@@ -108,16 +107,18 @@ class Sell extends Component {
           placeholder={'Price ... '}
         />
         <Button
-          icon={{name: 'code'}}
-          backgroundColor='#03A9F4'
-          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-          title='Post'
+          icon={{ name: 'code' }}
+          backgroundColor="#03A9F4"
+          buttonStyle={{
+            borderRadius: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginBottom: 0
+          }}
+          title="Post"
           onPress={async () => {
-            const {
-              uploading,
-              image,
-              ...rest
-            } = this.state
+            // eslint-disable-next-line no-unused-vars
+            const { uploading, image, ...rest } = this.state
 
             await this.props.createPost({
               variables: {
@@ -126,7 +127,7 @@ class Sell extends Component {
             })
             this.props.navigation.navigate('Feed')
           }}
-           />
+        />
       </ScrollView>
     )
   }

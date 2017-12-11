@@ -6,16 +6,11 @@ import Card from './feed/Post'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
 
-const PostList = ({ data, ...props }) => {
-  const {
-    loading,
-    error,
-    Posts,
-    refetch
-  } = data
+const PostList = ({ data }) => {
+  const { loading, error, Posts, refetch } = data
 
   if (loading) {
-    console.log(loading)
+   // console.log(loading)
   }
   if (error) {
     // console.log(error)
@@ -27,23 +22,17 @@ const PostList = ({ data, ...props }) => {
   return (
     <View>
       <Text>Feed</Text>
-      {
-        Posts ?
+      {Posts ? (
         <FlatList
           data={Posts}
-          renderItem={({ item }) => (
-            <Card
-              {...item}
-            />
-          )}
+          renderItem={({ item }) => <Card {...item} />}
           keyExtractor={item => item.id}
           refreshing={loading}
           onRefresh={refetch}
         />
-        :
+      ) : (
         <Text>Loading</Text>
-      }
-
+      )}
     </View>
   )
 }
