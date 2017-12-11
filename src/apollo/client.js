@@ -9,20 +9,23 @@ import { createUploadLink } from 'apollo-upload-client'
 
 import constants from '../../constants'
 
+const addAuthHeader = token => {
+  return token
+    ? {
+        Authorization: `Bearer ${token}`
+      }
+    : undefined
+}
 // cache token so we don't have to look up for every request
 let token
 const withToken = setContext(async (operation, { headers }) => {
   if (!token) {
     token = await SecureStore.getItemAsync('token')
   }
-
-  // console.log('op', operation)
-  // console.log('headers', headers)
-  // console.log('req', token)
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : null
+      ...addAuthHeader(token)
     }
   }
 })
