@@ -2,7 +2,6 @@ import React from 'react'
 import { ImageBackground, ActivityIndicator } from 'react-native'
 
 export default ({ source, loading }) => {
-  console.log('source', source)
   return (
       source.uri ? 
       <ImageBackground

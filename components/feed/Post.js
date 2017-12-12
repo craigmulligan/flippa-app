@@ -13,7 +13,7 @@ export default ({ title, price, description, file, user }) => {
       <Profile {...user} />
       <Text>{title}</Text>
       <Text style={{ marginBottom: 10 }}>{description}</Text>
-      <Image source={{ uri: file.url }} />
+      <Image source={{ uri: file && file.url }} />
     <View style={{
       display:'flex', 
       alignItems: 'center',
@@ -27,11 +27,10 @@ export default ({ title, price, description, file, user }) => {
           containerViewStyle={{
             marginRight: 0
           }}
-          backgroundColor={ contants.theme.colors.green }
+          backgroundColor={ constants.theme.colors.green }
           title="Make an Offer"
         />
       </View>
-      <Divider style={{ margin: 15, backgroundColor: constants.theme.colors.gray }} />
     </View>
   )
 }

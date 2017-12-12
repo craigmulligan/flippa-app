@@ -47,7 +47,8 @@
     "react-native": "0.50.3",
     "react-native-elements": "0.18.4",
     "react-native-image-progress": "^1.0.1",
-    "react-navigation": "^1.0.0-beta.21"
+    "react-navigation": "^1.0.0-beta.21",
+    "shortid": "^2.2.8"
   },
   "license": "ISC",
   "repository": {

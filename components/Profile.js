@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { SecureStore } from 'expo'
 import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native'
 
@@ -39,17 +40,14 @@ class Profile extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps.data)
     this.setState(newProps.data.User)
   }
 
   render() {
-    console.log(this.state)
     return (
       <ScrollView>
         <FormLabel>Store Name</FormLabel>
-        <FormInput
-          value={this.state.displayName}
+        <FormInput value={this.state.displayName}
           onChangeText={value => this.setState({ displayName: value })}
           placeholder={'displayName ... '}
         />
@@ -80,6 +78,13 @@ class Profile extends Component {
             })
           }}
         />
+       <Button
+        title="Logout"
+        onPress={async () => {
+          await SecureStore.deleteItemAsync('token')
+          this.props.navigation.navigate('Login')
+        }}
+      />
       </ScrollView>
     )
   }

@@ -3,6 +3,7 @@ import { ImagePicker } from 'expo'
 import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native'
 import { ReactNativeFile } from 'apollo-upload-client'
+import shortid from 'shortid'
 
 import Image from './feed/Image'
 
@@ -62,19 +63,17 @@ class Sell extends Component {
     try {
       this.setState({ uploading: true })
       
-      console.log('pick!')
       if (!pickerResult.cancelled) {
         this.setState({ image: pickerResult.uri })
+        const type = pickerResult.uri.slice(-3)
         const f = new ReactNativeFile({
           uri: pickerResult.uri,
-          type: 'image/jpeg',
-          name: 'photo.jpg'
+          type: `image/${type}`,
+          name: `${shortid.generate()}.jpg` 
         })
-
         const { data } = await this.props.uploadImage({
           variables: { file: f }
         })
-        console.log(this.state)
         this.setState({
           fileId: data.singleUpload.id
         })
