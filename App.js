@@ -30,7 +30,8 @@ const App = TabNavigator(
       screen: Notifications 
     },
     Store: {
-      screen: Profile
+      screen: Profile,
+      path: '/profile/:id'
     }
   },
   {

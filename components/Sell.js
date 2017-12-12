@@ -5,7 +5,9 @@ import { ScrollView } from 'react-native'
 import { ReactNativeFile } from 'apollo-upload-client'
 import shortid from 'shortid'
 
-import Image from './feed/Image'
+import {
+  Image
+} from './utils'
 
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
