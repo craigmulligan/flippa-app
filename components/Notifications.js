@@ -27,7 +27,7 @@ const NofificationList = ({ data }) => {
 
 NofificationList.navigationOptions = {
   tabBarIcon: ({ tintColor }) => {
-    return (<Icon name='notifications' />)
+    return <Icon name="notifications" />
   }
 }
 

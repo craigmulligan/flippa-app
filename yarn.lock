@@ -1234,7 +1234,7 @@ babel-register@^6.24.1, babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.0.0, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0, babel-runtime@^6.9.2:
+babel-runtime@^6.0.0, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0, babel-runtime@^6.9.2, babel-runtime@~6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -2167,6 +2167,10 @@ dot-prop@^3.0.0:
 dotenv@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
+
+ducky@~2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/ducky/-/ducky-2.6.3.tgz#4cfad9288f98e65a074a7eb0dedbf06e9130503e"
 
 duplexer2@0.0.2:
   version "0.0.2"
@@ -3145,7 +3149,16 @@ graphql-tag@2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.5.0.tgz#b43bfd8b5babcd2c205ad680c03e98b238934e0f"
 
-graphql@^0.11.7:
+graphql-tools-types@^1.1.13:
+  version "1.1.13"
+  resolved "https://registry.yarnpkg.com/graphql-tools-types/-/graphql-tools-types-1.1.13.tgz#10dd1ed1eafe368cf99921abfa64ff7b74de9e29"
+  dependencies:
+    babel-runtime "~6.26.0"
+    ducky "~2.6.3"
+    graphql "~0.11.7"
+    pure-uuid "~1.4.11"
+
+graphql@^0.11.7, graphql@~0.11.7:
   version "0.11.7"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.11.7.tgz#e5abaa9cb7b7cccb84e9f0836bf4370d268750c6"
   dependencies:
@@ -5510,6 +5523,10 @@ punycode@1.3.2:
 punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
+
+pure-uuid@~1.4.11:
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/pure-uuid/-/pure-uuid-1.4.11.tgz#8bd5b6d1d5a613ea49cb406c1ebbdab4dea81920"
 
 q@^1.4.1:
   version "1.5.1"

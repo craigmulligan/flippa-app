@@ -11,6 +11,7 @@ import Profile from './components/Profile'
 import Sell from './components/Sell'
 import Notifications from './components/Notifications'
 
+import { updateFocus } from '@patwoz/react-navigation-is-focused-hoc'
 import client from './src/apollo/client'
 
 import { StackNavigator, TabNavigator } from 'react-navigation'
@@ -27,7 +28,7 @@ const App = TabNavigator(
       screen: Sell
     },
     Notifications: {
-      screen: Notifications 
+      screen: Notifications
     },
     Store: {
       screen: Profile,
@@ -40,7 +41,7 @@ const App = TabNavigator(
     tabBarOptions: {
       activeTintColor: '#e91e63',
       showIcon: true,
-      showLabel: false,
+      showLabel: false
     }
   }
 )
@@ -68,7 +69,11 @@ export default class Root extends React.Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <RootNavigator />
+        <RootNavigator
+          onNavigationStateChange={(prevState, currentState) => {
+            updateFocus(currentState)
+          }}
+        />
       </ApolloProvider>
     )
   }

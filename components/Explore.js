@@ -27,7 +27,7 @@ const ExploreList = ({ data }) => {
 
 ExploreList.navigationOptions = {
   tabBarIcon: ({ tintColor }) => {
-    return (<Icon name='explore' />)
+    return <Icon name="explore" />
   }
 }
 

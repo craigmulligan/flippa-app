@@ -5,9 +5,7 @@ import { ScrollView } from 'react-native'
 import { ReactNativeFile } from 'apollo-upload-client'
 import shortid from 'shortid'
 
-import {
-  Image
-} from './utils'
+import { Image } from './utils'
 
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
@@ -44,7 +42,7 @@ class Sell extends Component {
 
   static navigationOptions = {
     tabBarIcon: ({ tintColor }) => {
-      return (<Icon name='camera'/>)
+      return <Icon name="camera" />
     }
   }
 
@@ -64,14 +62,14 @@ class Sell extends Component {
   _handleImagePicked = async pickerResult => {
     try {
       this.setState({ uploading: true })
-      
+
       if (!pickerResult.cancelled) {
         this.setState({ image: pickerResult.uri })
         const type = pickerResult.uri.slice(-3)
         const f = new ReactNativeFile({
           uri: pickerResult.uri,
           type: `image/${type}`,
-          name: `${shortid.generate()}.jpg` 
+          name: `${shortid.generate()}.jpg`
         })
         const { data } = await this.props.uploadImage({
           variables: { file: f }
