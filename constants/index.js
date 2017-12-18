@@ -10,6 +10,7 @@ const getHostMachine = () => {
 export default {
   api: isDev ? getHostMachine() : Constants.manifest.extra.api,
   verificationCodeLength: 4,
+  posts_per_page: 10,
   theme: {
     colors: {
       blue: '#2892D7',

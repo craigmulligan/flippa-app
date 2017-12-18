@@ -3,10 +3,12 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native'
 import { Icon, SearchBar } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import List from '../Feed/List'
+import List from '../utils/List'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
-const POSTS_PER_PAGE = 10
+import {
+  posts_per_page
+} from '../../constants'
 
 const PostList = props => {
   return <List {...props} />
@@ -40,7 +42,7 @@ export default graphql(
     options: props => ({
       variables: {
         offset: 0,
-        limit: POSTS_PER_PAGE,
+        limit: posts_per_page,
         filter: {
           likers: props.screenProps.userId 
         }
