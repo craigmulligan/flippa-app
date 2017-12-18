@@ -10,13 +10,13 @@ import { posts_per_page } from '../../constants'
 
 List.navigationOptions = {
   // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-  tabBarIcon: ({ tintColor }) => <Icon name="home" />
+  tabBarIcon: ({ tintColor }) => <Icon name="explore" />
 }
 
 export default graphql(
   gql`
     query List($limit: Int, $offset: Int) {
-      Feed(limit: $limit, offset: $offset) {
+      Posts(limit: $limit, offset: $offset) {
         id
         title
         description
@@ -38,12 +38,6 @@ export default graphql(
     }
   `,
   {
-    props: ({ data }) => ({
-      data: {
-        ...data,
-        Posts: data.Feed
-      }
-    }),
     options: {
       variables: {
         offset: 0,

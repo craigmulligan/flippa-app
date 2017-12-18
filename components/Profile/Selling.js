@@ -6,16 +6,11 @@ import { graphql } from 'react-apollo'
 import List from '../utils/List'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
-import { 
-  posts_per_page
-}from '../../constants'
-const PostList = props => {
-  return <List {...props} />
-}
+import { posts_per_page } from '../../constants'
 
 export default graphql(
   gql`
-    query PostList($limit: Int, $offset: Int, $filter: JSON) {
+    query List($limit: Int, $offset: Int, $filter: JSON) {
       Posts(limit: $limit, offset: $offset, filter: $filter) {
         id
         title
@@ -52,4 +47,4 @@ export default graphql(
       }
     }
   }
-)(PostList)
+)(List)

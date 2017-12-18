@@ -88,9 +88,7 @@ class Profile extends Component {
   }
 
   render() {
-    const {
-      User
-    } = this.props.data
+    const { User } = this.props.data
     return (
       <ScrollView>
         <Button
@@ -102,9 +100,7 @@ class Profile extends Component {
         />
         <UserInfo {...User} />
         <FollowInfo {...User} />
-        <Follow
-          id={get(User, 'id')}
-        />
+        <Follow id={get(User, 'id')} />
         <ProfileNav screenProps={{ userId: get(User, 'id') }} />
       </ScrollView>
     )
@@ -117,6 +113,6 @@ export default compose(
   graphql(userQuery, {
     options: ({ navigation }) => {
       return { variables: { id: get(navigation, 'state.params.id') } }
-    },
+    }
   })
 )(Profile)
