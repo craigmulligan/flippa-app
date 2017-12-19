@@ -10,7 +10,7 @@ import Likes from './Likes'
 import Selling from './Selling'
 import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
 import PropTypes from 'prop-types'
-import { UserInfo, FollowInfo, Follow } from '../utils'
+import { UserSummary, FollowInfo, Follow } from '../utils'
 
 const ProfileNav = TabNavigator(
   {
@@ -98,7 +98,7 @@ class Profile extends Component {
             this.props.navigation.navigate('Login')
           }}
         />
-        <UserInfo {...User} />
+        <UserSummary {...User} />
         <FollowInfo {...User} />
         <Follow id={get(User, 'id')} />
         <ProfileNav screenProps={{ userId: get(User, 'id') }} />

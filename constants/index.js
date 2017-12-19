@@ -16,8 +16,10 @@ export default {
       blue: '#2892D7',
       blueDark: '#1B3B6F',
       blueLight: '#6DAEDB',
-      green: '#06D6A0',
-      gray: '#D3D3D3'
+      green: '#00a33e',
+      gray: '#D3D3D3',
+      grayLight: '#b7b7b7',
+      red: '#f9576c'
     },
     space: 10
   }

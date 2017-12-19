@@ -49,6 +49,7 @@
     "react-apollo": "2.0.1",
     "react-native": "0.50.3",
     "react-native-elements": "0.18.4",
+    "react-native-icon-badge": "^1.1.3",
     "react-native-image-progress": "^1.0.1",
     "react-navigation": "^1.0.0-beta.21",
     "relative-time": "^1.0.0",

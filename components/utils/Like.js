@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { Button } from 'react-native-elements'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { Icon } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import constants from '../../constants'
@@ -32,35 +32,31 @@ const hasLiked = (likes, id) => {
 
 const Like = ({ id, likePost, data: { Whoami } }) => {
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center'
+    <TouchableOpacity
+      onPress={async () => {
+        await likePost({
+          variables: {
+            id: id
+          },
+          refetchQueries: [
+            {
+              query: WhoamiQuery
+            }
+          ]
+        })
       }}
     >
-      <Button
-        buttonStyle={{
-          backgroundColor: hasLiked(get(Whoami, 'likes'), id)
-            ? constants.theme.colors.green
-            : constants.theme.colors.blue
-        }}
-        loading={false}
-        onPress={async () => {
-          await likePost({
-            variables: {
-              id: id
-            },
-            refetchQueries: [
-              {
-                query: WhoamiQuery
-              }
-            ]
-          })
-        }}
-        title="Like"
-      />
-    </View>
+      <View>
+        <Icon
+          iconStyle={{
+            color: hasLiked(get(Whoami, 'likes'), id)
+              ? constants.theme.colors.grayLight
+              : constants.theme.colors.red
+          }}
+          name="favorite"
+        />
+      </View>
+    </TouchableOpacity>
   )
 }
 

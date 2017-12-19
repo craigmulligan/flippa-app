@@ -1,17 +1,14 @@
 import React from 'react'
 import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import { Icon } from 'react-native-elements'
+import { Icon, Badge } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import Notification from './Notification'
 import get from 'lodash/get'
 
 const NofificationList = ({ data }) => {
-  console.log(data)
   const { loading, error, User, refetch } = data
 
-  console.log(error)
-  console.log(loading)
   return (
     <View>
       {get(User, 'notifications') ? (
@@ -31,7 +28,27 @@ const NofificationList = ({ data }) => {
 
 NofificationList.navigationOptions = {
   tabBarIcon: ({ tintColor }) => {
-    return <Icon name="notifications" />
+    return (
+      <View>
+        <Badge
+          value={3}
+          wrapperStyle={{
+            position: 'absolute',
+            zIndex: 2,
+            maxHeight: 10,
+            maxWidth: 10
+          }}
+          containerStyle={{
+            height: '100%',
+            minWidth: '100%',
+            maxWidth: '100%',
+            flexGrow: 0,
+            flex: -1
+          }}
+        />
+        <Icon name="notifications" />
+      </View>
+    )
   }
 }
 

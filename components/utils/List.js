@@ -1,11 +1,10 @@
 import React from 'react'
 import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import { Icon, SearchBar } from 'react-native-elements'
-import { Post } from '../utils'
+import { Icon, SearchBar, Divider } from 'react-native-elements'
+import { Post, Hr } from '../utils'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
 
-const POSTS_PER_PAGE = 10
 const PostList = ({ data }) => {
   const { loading, error, Posts, refetch, fetchMore } = data
   _renderHeader = () => {
@@ -38,8 +37,7 @@ const PostList = ({ data }) => {
       <View
         style={{
           paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: '#CED0CE'
+          borderTopWidth: 1
         }}
       >
         <ActivityIndicator animating size="large" />
@@ -57,7 +55,9 @@ const PostList = ({ data }) => {
           refreshing={loading}
           onRefresh={refetch}
           ListHeaderComponent={this._renderHeader}
-          ItemSeperatorComponent={() => Divider}
+          ItemSeparatorComponent={() => {
+            return <Divider />
+          }}
           ListFooterComponent={this._renderFooter}
           //          onEndReached={this._loadMore}
         />
