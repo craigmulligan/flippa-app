@@ -38,10 +38,12 @@ export default ({
           <Text h5>{title}</Text>
           <Text h4>R {price}</Text>
         </View>
-    <Text style={{
-      fontSize: 12,
-      color: constants.theme.colors.grayLight
-    }}>
+        <Text
+          style={{
+            fontSize: 12,
+            color: constants.theme.colors.grayLight
+          }}
+        >
           {createdAt && distanceInWordsToNow(Date.parse(createdAt))} ago
         </Text>
       </View>

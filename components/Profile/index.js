@@ -10,7 +10,7 @@ import Likes from './Likes'
 import Selling from './Selling'
 import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
 import PropTypes from 'prop-types'
-import { UserSummary, FollowInfo, Follow } from '../utils'
+import { UserSummary, FollowSummary, Follow } from '../utils'
 
 const ProfileNav = TabNavigator(
   {
@@ -50,6 +50,9 @@ const userQuery = gql`
       phoneNumber
       avatar
       followers {
+        id
+      }
+      following {
         id
       }
     }
@@ -99,7 +102,7 @@ class Profile extends Component {
           }}
         />
         <UserSummary {...User} />
-        <FollowInfo {...User} />
+        <FollowSummary {...User} />
         <Follow id={get(User, 'id')} />
         <ProfileNav screenProps={{ userId: get(User, 'id') }} />
       </ScrollView>
