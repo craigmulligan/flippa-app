@@ -14,7 +14,7 @@ List.navigationOptions = {
 }
 export const feedQuery = gql`
     query feedQuery($limit: Int, $offset: Int) {
-      Feed(limit: $limit, offset: $offset) {
+      Posts: Feed(limit: $limit, offset: $offset) {
         id
         title
         description
@@ -39,12 +39,6 @@ export const feedQuery = gql`
 export default graphql(
   feedQuery,
   {
-    props: ({ data }) => ({
-      data: {
-        ...data,
-        Posts: data.Feed
-      }
-    }),
     options: {
       variables: {
         offset: 0,

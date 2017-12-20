@@ -1,11 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Text, Divider, Card, Button, Icon } from 'react-native-elements'
-import Image from './Image'
-import UserSummary from './UserSummary'
 import constants from '../../constants'
-import Like from './Like'
-import { distanceInWordsToNow } from 'date-fns'
+import { 
+  Like,
+  TimeStamp,
+  UserSummary,
+  Image
+} from './'
 
 export default ({
   id,
@@ -38,14 +40,7 @@ export default ({
           <Text h5>{title}</Text>
           <Text h4>R {price}</Text>
         </View>
-        <Text
-          style={{
-            fontSize: 12,
-            color: constants.theme.colors.grayLight
-          }}
-        >
-          {createdAt && distanceInWordsToNow(Date.parse(createdAt))} ago
-        </Text>
+        <TimeStamp createdAt={createdAt} />
       </View>
 
       <View

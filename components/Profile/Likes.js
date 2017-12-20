@@ -11,7 +11,7 @@ import { posts_per_page } from '../../constants'
 export default graphql(
   gql`
     query LikedPosts($limit: Int, $offset: Int, $filter: JSON) {
-      PostsByLikers(limit: $limit, offset: $offset, filter: $filter) {
+      Posts: PostsByLikers(limit: $limit, offset: $offset, filter: $filter) {
         id
         title
         description
@@ -36,16 +36,10 @@ export default graphql(
     options: props => ({
       variables: {
         offset: 0,
-        limit: posts_per_page,
+        limit: 10,
         filter: {
           likers: props.screenProps.userId
         }
-      }
-    }),
-    props: ({ data }) => ({
-      data: {
-        ...data,
-        Posts: data.PostsByLikers
       }
     })
   }

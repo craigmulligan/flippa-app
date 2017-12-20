@@ -12,10 +12,11 @@ import constants from '../../constants'
 const addAuthHeader = token => {
   return token
     ? {
-        Authorization: `Bearer ${token}`
-      }
+      Authorization: `Bearer ${token}`
+    }
     : undefined
 }
+
 // cache token so we don't have to look up for every request
 let token
 const withToken = setContext(async (operation, { headers }) => {

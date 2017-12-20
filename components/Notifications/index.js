@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import { Icon, Badge } from 'react-native-elements'
+import { Icon, Badge, Divider } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import Notification from './Notification'
@@ -17,6 +17,9 @@ const NofificationList = ({ data }) => {
           renderItem={({ item }) => <Notification {...item} />}
           keyExtractor={item => item.id}
           refreshing={loading}
+          ItemSeparatorComponent={() => {
+            return <Divider />
+          }}
           onRefresh={refetch}
         />
       ) : (
@@ -59,6 +62,7 @@ export default graphql(gql`
       phoneNumber
       notifications {
         id
+        createdAt
         read
         actor {
           id

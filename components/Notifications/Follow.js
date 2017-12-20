@@ -1,8 +1,9 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { withNavigation } from 'react-navigation'
+import { TimeStamp } from '../utils'
 
-export default withNavigation(({ actor, navigation }) => {
+export default withNavigation(({ actor, navigation, createdAt }) => {
   return (
     <View
       style={{
@@ -18,10 +19,11 @@ export default withNavigation(({ actor, navigation }) => {
             fontWeight: 'bold'
           }}
         >
-          {actor.displayName || actor.phoneNumber}
+          {actor.displayName || actor.phoneNumber}&nbsp;
         </Text>
         <Text>followed you</Text>
       </Text>
+      <TimeStamp createdAt={createdAt} />
     </View>
   )
 })
