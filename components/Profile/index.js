@@ -42,7 +42,7 @@ const updateUserMutation = gql`
   }
 `
 
-const userQuery = gql`
+export const userQuery = gql`
   query User($id: ID) {
     User(id: $id) {
       id

@@ -6,6 +6,7 @@ import { graphql, compose } from 'react-apollo'
 import constants from '../../constants'
 import isArray from 'lodash/isArray'
 import get from 'lodash/get'
+import { userQuery } from '../Profile'
 
 const followUserMutation = gql`
   mutation($id: ID!) {
@@ -26,7 +27,7 @@ const WhoamiQuery = gql`
   }
 `
 
-const isFollowing = (following, id) => {
+const checkFollowStatus = (following, id) => {
   if (!isArray(following)) {
     return false
   }
@@ -34,6 +35,7 @@ const isFollowing = (following, id) => {
 }
 
 const Follow = ({ id, loading, followUser, data: { Whoami } }) => {
+  const isFollowing = checkFollowStatus(get(Whoami, 'following'), id)
   return (
     <View
       style={{
@@ -44,13 +46,12 @@ const Follow = ({ id, loading, followUser, data: { Whoami } }) => {
     >
       <Button
         buttonStyle={{
-          backgroundColor: isFollowing(get(Whoami, 'following'), id)
-            ? constants.theme.colors.green
-            : constants.theme.colors.blue
+          backgroundColor: isFollowing 
+            ? constants.theme.colors.gray
+            : constants.theme.colors.green
         }}
         loading={loading}
         onPress={async () => {
-          console.log(id)
           await followUser({
             variables: {
               id: id
@@ -58,11 +59,17 @@ const Follow = ({ id, loading, followUser, data: { Whoami } }) => {
             refetchQueries: [
               {
                 query: WhoamiQuery
+              },
+              {
+                query: userQuery,
+                variables: {
+                  id: id 
+                }
               }
             ]
           })
         }}
-        title="Follow"
+        title={isFollowing ? 'UnFollow' : 'Follow'}
       />
     </View>
   )
