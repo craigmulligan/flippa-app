@@ -37,6 +37,7 @@ const App = TabNavigator(
   },
   {
     tabBarPosition: 'bottom',
+    initialRouteName: 'Store',
     animationEnabled: true,
     tabBarOptions: {
       activeTintColor: '#e91e63',

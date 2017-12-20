@@ -41,6 +41,7 @@ const updateUserMutation = gql`
 const userQuery = gql`
   {
     User {
+      id
       displayName
       phoneNumber
       avatar

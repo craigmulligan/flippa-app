@@ -38,7 +38,7 @@ export default graphql(
         offset: 0,
         limit: 10,
         filter: {
-          likers: props.screenProps.userId
+          likers: 22
         }
       }
     })

@@ -5,15 +5,13 @@ import { View, Button, StyleSheet } from 'react-native'
 export default ({ followers, following }) => {
   return (
     <View
-      style={{
-        margin: 10,
-        flexDirection: 'row',
-        alignItems: 'center'
-      }}
+      style={styles.container}
     >
       <Text>
         <Text h4>{followers && followers.length}</Text>
         <Text style={styles.textSmall}> Followers </Text>
+      </Text>
+      <Text>
         <Text h4>{following && following.length}</Text>
         <Text style={styles.textSmall}> Following</Text>
       </Text>
@@ -23,6 +21,14 @@ export default ({ followers, following }) => {
 
 const styles = StyleSheet.create({
   textSmall: {
-    fontSize: 12
+    fontSize: 12,
+
+  },
+  container: {
+    margin: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '50%'
   }
 })

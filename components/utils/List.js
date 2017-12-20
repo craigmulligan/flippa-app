@@ -7,9 +7,6 @@ import isEmpty from 'lodash/isEmpty'
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
 
 const PostList = ({ data, ...rest }) => {
-  console.log(
-    rest
-  ) 
   const { loading, error, Posts, refetch, fetchMore } = data
 
   _renderHeader = () => {

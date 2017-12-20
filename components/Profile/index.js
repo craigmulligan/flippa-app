@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { SecureStore } from 'expo'
 import get from 'lodash/get'
 import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
-import { ScrollView, View } from 'react-native'
+import { ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import { StackNavigator, TabNavigator } from 'react-navigation'
@@ -11,6 +11,12 @@ import Selling from './Selling'
 import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
 import PropTypes from 'prop-types'
 import { UserSummary, FollowSummary, Follow } from '../utils'
+import {
+ isCurrentUser 
+} from '../../src/apollo/client'
+import Edit from './Edit'
+
+const Col = (props) => <View style={styles.col} {...props} />
 
 const ProfileNav = TabNavigator(
   {
@@ -30,6 +36,19 @@ const ProfileNav = TabNavigator(
     lazyLoad: true,
     tabBarOptions: {
       activeTintColor: '#e91e63'
+    }
+  }
+)
+
+const StoreNav = StackNavigator(
+  {
+    Edit: {
+      screen: Edit
+    },
+    Store: {
+      screen: (props) => {
+        return (<ProfileNav {...props} />)
+      }
     }
   }
 )
@@ -101,10 +120,31 @@ class Profile extends Component {
             this.props.navigation.navigate('Login')
           }}
         />
-        <UserSummary {...User} />
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <UserSummary {...User} />
+          <View>
+            {
+              !isCurrentUser(get(User, 'id')) && <Follow id={get(User, 'id')} />
+            }
+            {
+              isCurrentUser(get(User, 'id')) && (
+                <TouchableOpacity 
+                  onPress={() => {
+                    
+                  }} 
+                >
+                  <Icon name={'edit'} />
+                </TouchableOpacity>
+              )
+            }
+          </View>
+        </View>
         <FollowSummary {...User} />
-        <Follow id={get(User, 'id')} />
-        <ProfileNav screenProps={{ userId: get(User, 'id') }} />
+        <StoreNav screenProps={{ userId: get(User, 'id') }} />
       </ScrollView>
     )
   }

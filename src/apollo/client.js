@@ -4,7 +4,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
 import { ApolloLink, from } from 'apollo-link'
 import { onError } from 'apollo-link-error'
-
+import decode from 'jwt-decode'
 import { createUploadLink } from 'apollo-upload-client'
 
 import constants from '../../constants'
@@ -54,4 +54,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
+export const currentUser = () => token && decode(token).id 
+export const isCurrentUser = (id) => {
+  return currentUser() === Number(id)
+}
 export default client

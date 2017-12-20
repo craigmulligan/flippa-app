@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { ImagePicker } from 'expo'
 import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
-import { ScrollView } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import { ReactNativeFile } from 'apollo-upload-client'
 import shortid from 'shortid'
 
-import { Image } from './utils'
+import { Image, ImageForm } from './utils'
 
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
+import constants from '../constants'
 
 const createPostMutation = gql`
   mutation($input: PostInput!) {
@@ -87,13 +88,16 @@ class Sell extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <Button
-          buttonStyle={{ marginTop: 15 }}
+      <ScrollView 
+        contentContainerStyle={styles.contentContainer}
+        style={styles.container}>
+      {
+        !this.state.image &&
+        <ImageForm 
           onPress={this._pickImage}
-          title="Pick an image from camera roll"
-        />
-        <Image
+         />
+      }
+      <Image
           loading={this.state.uploading}
           source={{ uri: this.state.image }}
         />
@@ -122,7 +126,6 @@ class Sell extends Component {
             borderRadius: 0,
             marginLeft: 0,
             marginRight: 0,
-            marginBottom: 0
           }}
           title="Post"
           onPress={async () => {
@@ -141,6 +144,16 @@ class Sell extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: constants.theme.colors.grayMedium,
+    padding: 10
+  },
+  contentContainer: {
+    paddingBottom: 20
+  }
+})
 
 export default compose(
   graphql(uploadImageMutation, { name: 'uploadImage' }),

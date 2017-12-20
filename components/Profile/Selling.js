@@ -40,7 +40,7 @@ export default graphql(
           limit: posts_per_page,
           filter: {
             where: {
-              userId: props.screenProps.userId
+              userId: 22 
             }
           }
         }
