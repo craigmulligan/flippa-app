@@ -10,7 +10,7 @@ import { posts_per_page } from '../../constants'
 
 export default graphql(
   gql`
-    query List($limit: Int, $offset: Int, $filter: JSON) {
+    query LikedPosts($limit: Int, $offset: Int, $filter: JSON) {
       PostsByLikers(limit: $limit, offset: $offset, filter: $filter) {
         id
         title

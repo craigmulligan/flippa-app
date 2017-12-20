@@ -65,7 +65,8 @@ const Follow = ({ id, loading, followUser, data: { Whoami } }) => {
                 variables: {
                   id: id 
                 }
-              }
+              },
+              'feedQuery'
             ]
           })
         }}

@@ -41,7 +41,8 @@ const Like = ({ id, likePost, data: { Whoami } }) => {
           refetchQueries: [
             {
               query: WhoamiQuery
-            }
+            },
+            'LikedPosts' 
           ]
         })
       }}
@@ -50,8 +51,8 @@ const Like = ({ id, likePost, data: { Whoami } }) => {
         <Icon
           iconStyle={{
             color: hasLiked(get(Whoami, 'likes'), id)
-              ? constants.theme.colors.grayLight
-              : constants.theme.colors.red
+              ? constants.theme.colors.red
+              : constants.theme.colors.grayLight
           }}
           name="favorite"
         />

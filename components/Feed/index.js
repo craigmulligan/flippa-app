@@ -12,10 +12,8 @@ List.navigationOptions = {
   // Note: By default the icon is only shown on iOS. Search the showIcon option below.
   tabBarIcon: ({ tintColor }) => <Icon name="home" />
 }
-
-export default graphql(
-  gql`
-    query List($limit: Int, $offset: Int) {
+export const feedQuery = gql`
+    query feedQuery($limit: Int, $offset: Int) {
       Feed(limit: $limit, offset: $offset) {
         id
         title
@@ -36,7 +34,10 @@ export default graphql(
         }
       }
     }
-  `,
+  `
+
+export default graphql(
+  feedQuery,
   {
     props: ({ data }) => ({
       data: {
