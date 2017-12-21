@@ -1,6 +1,3 @@
-import React from 'react'
-import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import { Icon, SearchBar } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import List from '../utils/List'
@@ -33,14 +30,14 @@ export default graphql(
     }
   `,
   {
-    options: ({ screenProps })=> {
+    options: ({ screenProps }) => {
       return {
         variables: {
           offset: 0,
           limit: posts_per_page,
           filter: {
             where: {
-              userId: screenProps.userId 
+              userId: screenProps.userId
             }
           }
         }

@@ -1,26 +1,15 @@
 import React, { Component } from 'react'
-import { SecureStore } from 'expo'
-import get from 'lodash/get'
-import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
-import { ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native'
-import gql from 'graphql-tag'
-import { graphql, compose } from 'react-apollo'
-import { StackNavigator, TabNavigator } from 'react-navigation'
-import Likes from './Likes'
-import Selling from './Selling'
-import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
+import { Icon } from 'react-native-elements'
+import { StackNavigator } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { UserSummary, FollowSummary, Follow } from '../utils'
-import {
-  isCurrentUser 
-} from '../../src/apollo/client'
 import Store from './Store'
 import Edit from './Edit'
+import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
 
 const ProfileNav = StackNavigator(
   {
     Store: {
-      screen: Store 
+      screen: Store
     },
     Edit: {
       screen: Edit
@@ -37,7 +26,7 @@ class Profile extends Component {
     this.state = {}
   }
 
-  static navigationOptions = props => ({
+  static navigationOptions = () => ({
     tabBarIcon: () => {
       return <Icon name="person" />
     }
@@ -64,11 +53,13 @@ class Profile extends Component {
 
   render() {
     return (
-      <ProfileNav screenProps={{
-        userId: this.props.navigation.state.id
-      }} />
+      <ProfileNav
+        screenProps={{
+          userId: this.props.navigation.state.id
+        }}
+      />
     )
   }
 }
 
-export default Profile
+export default withNavigationFocus(Profile)

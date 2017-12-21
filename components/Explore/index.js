@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import { Icon, SearchBar } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { List } from '../utils'
@@ -10,7 +9,7 @@ import { posts_per_page } from '../../constants'
 
 List.navigationOptions = {
   // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-  tabBarIcon: ({ tintColor }) => <Icon name="explore" />
+  tabBarIcon: () => <Icon name="explore" />
 }
 
 export default graphql(

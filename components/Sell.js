@@ -42,7 +42,7 @@ class Sell extends Component {
   }
 
   static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => {
+    tabBarIcon: () => {
       return <Icon name="camera" />
     }
   }
@@ -56,7 +56,7 @@ class Sell extends Component {
 
       this._handleImagePicked(pickerResult)
     } catch (err) {
-      console.log(err)
+      // console.log(err)
     }
   }
 
@@ -88,16 +88,12 @@ class Sell extends Component {
 
   render() {
     return (
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={styles.contentContainer}
-        style={styles.container}>
-      {
-        !this.state.image &&
-        <ImageForm 
-          onPress={this._pickImage}
-         />
-      }
-      <Image
+        style={styles.container}
+      >
+        {!this.state.image && <ImageForm onPress={this._pickImage} />}
+        <Image
           loading={this.state.uploading}
           source={{ uri: this.state.image }}
         />
@@ -125,7 +121,7 @@ class Sell extends Component {
           buttonStyle={{
             borderRadius: 0,
             marginLeft: 0,
-            marginRight: 0,
+            marginRight: 0
           }}
           title="Post"
           onPress={async () => {

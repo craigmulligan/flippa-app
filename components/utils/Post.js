@@ -1,24 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Text, Divider, Card, Button, Icon } from 'react-native-elements'
+import { Text, Button } from 'react-native-elements'
 import constants from '../../constants'
-import { 
-  Like,
-  TimeStamp,
-  UserSummary,
-  Image
-} from './'
+import { Like, TimeStamp, UserSummary, Image } from './'
 
-export default ({
-  id,
-  title,
-  likes,
-  createdAt,
-  price,
-  description,
-  files,
-  user
-}) => {
+export default ({ id, title, likes, createdAt, price, files, user }) => {
   return (
     <View
       style={{

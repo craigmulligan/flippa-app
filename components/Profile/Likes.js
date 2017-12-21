@@ -1,12 +1,8 @@
-import React from 'react'
-import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import { Icon, SearchBar } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import List from '../utils/List'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
-import { posts_per_page } from '../../constants'
 
 export default graphql(
   gql`
@@ -33,12 +29,12 @@ export default graphql(
     }
   `,
   {
-    options:({ screenProps }) => ({
+    options: ({ screenProps }) => ({
       variables: {
         offset: 0,
         limit: 10,
         filter: {
-          likers: screenProps.userId 
+          likers: screenProps.userId
         }
       }
     })

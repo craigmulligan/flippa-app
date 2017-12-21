@@ -1,12 +1,10 @@
 import React from 'react'
-import { Avatar, Text } from 'react-native-elements'
-import { View, Button, StyleSheet } from 'react-native'
+import { Text } from 'react-native-elements'
+import { View, StyleSheet } from 'react-native'
 
 export default ({ followers, following }) => {
   return (
-    <View
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <Text>
         <Text h4>{followers && followers.length}</Text>
         <Text style={styles.textSmall}> Followers </Text>
@@ -21,8 +19,7 @@ export default ({ followers, following }) => {
 
 const styles = StyleSheet.create({
   textSmall: {
-    fontSize: 12,
-
+    fontSize: 12
   },
   container: {
     margin: 10,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
@@ -42,7 +42,7 @@ const Like = ({ id, likePost, data: { Whoami } }) => {
             {
               query: WhoamiQuery
             },
-            'LikedPosts' 
+            'LikedPosts'
           ]
         })
       }}

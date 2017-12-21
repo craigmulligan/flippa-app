@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { Button } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
@@ -46,7 +46,7 @@ const Follow = ({ id, loading, followUser, data: { Whoami } }) => {
     >
       <Button
         buttonStyle={{
-          backgroundColor: isFollowing 
+          backgroundColor: isFollowing
             ? constants.theme.colors.gray
             : constants.theme.colors.green
         }}
@@ -63,7 +63,7 @@ const Follow = ({ id, loading, followUser, data: { Whoami } }) => {
               {
                 query: userQuery,
                 variables: {
-                  id: id 
+                  id: id
                 }
               },
               'feedQuery'

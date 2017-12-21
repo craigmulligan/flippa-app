@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { SecureStore } from 'expo'
 import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
-import { ScrollView, View } from 'react-native'
+import { View } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
-import { StackNavigator, TabNavigator } from 'react-navigation'
+import { TabNavigator } from 'react-navigation'
 import Likes from './Likes'
 import Selling from './Selling'
 
@@ -102,9 +102,7 @@ class Profile extends Component {
                   displayName
                 }
               },
-              refetchQueries: [
-                'User'
-              ]
+              refetchQueries: ['User']
             })
             this.props.navigation.navigate('Store')
           }}

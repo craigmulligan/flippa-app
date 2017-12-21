@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, FlatList, ActivityIndicator } from 'react-native'
+import { View, FlatList, ActivityIndicator } from 'react-native'
 import { Icon, Badge, Divider } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
@@ -7,7 +7,7 @@ import Notification from './Notification'
 import get from 'lodash/get'
 
 const NofificationList = ({ data }) => {
-  const { loading, error, User, refetch } = data
+  const { loading, User, refetch } = data
 
   return (
     <View>
@@ -30,7 +30,7 @@ const NofificationList = ({ data }) => {
 }
 
 NofificationList.navigationOptions = {
-  tabBarIcon: ({ tintColor }) => {
+  tabBarIcon: () => {
     return (
       <View>
         <Badge

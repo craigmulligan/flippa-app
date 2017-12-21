@@ -9,4 +9,15 @@ import Like from './Like'
 import Empty from './Empty'
 import ImageForm from './ImageForm'
 
-export { Image, ImageForm, Post, Like, Empty, UserSummary, FollowSummary, Follow, List, TimeStamp }
+export {
+  Image,
+  ImageForm,
+  Post,
+  Like,
+  Empty,
+  UserSummary,
+  FollowSummary,
+  Follow,
+  List,
+  TimeStamp
+}

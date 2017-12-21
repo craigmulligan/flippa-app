@@ -1,28 +1,18 @@
 import React from 'react'
-import {
-  Image
-} from './'
 
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet
-} from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
-import {
-  Icon
-} from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 
 import constants from '../../constants'
 
 export default ({ onPress }) => {
-  return(
+  return (
     <TouchableOpacity onPress={onPress}>
-    <View style={styles.container}>
-      <Icon iconStyle={styles.text}name='camera' size={20}/>
-      <Text style={styles.text}>Upload Image</Text>
-    </View>
+      <View style={styles.container}>
+        <Icon iconStyle={styles.text} name="camera" size={20} />
+        <Text style={styles.text}>Upload Image</Text>
+      </View>
     </TouchableOpacity>
   )
 }

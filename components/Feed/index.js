@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import { Icon, SearchBar } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { List } from '../utils'
@@ -10,40 +9,37 @@ import { posts_per_page } from '../../constants'
 
 List.navigationOptions = {
   // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-  tabBarIcon: ({ tintColor }) => <Icon name="home" />
+  tabBarIcon: () => <Icon name="home" />
 }
 export const feedQuery = gql`
-    query feedQuery($limit: Int, $offset: Int) {
-      Posts: Feed(limit: $limit, offset: $offset) {
+  query feedQuery($limit: Int, $offset: Int) {
+    Posts: Feed(limit: $limit, offset: $offset) {
+      id
+      title
+      description
+      price
+      createdAt
+      likes {
         id
-        title
-        description
-        price
-        createdAt
-        likes {
-          id
-        }
-        user {
-          id
-          displayName
-          phoneNumber
-        }
-        files {
-          id
-          url
-        }
       }
-    }
-  `
-
-export default graphql(
-  feedQuery,
-  {
-    options: {
-      variables: {
-        offset: 0,
-        limit: posts_per_page
+      user {
+        id
+        displayName
+        phoneNumber
+      }
+      files {
+        id
+        url
       }
     }
   }
-)(List)
+`
+
+export default graphql(feedQuery, {
+  options: {
+    variables: {
+      offset: 0,
+      limit: posts_per_page
+    }
+  }
+})(List)

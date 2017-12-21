@@ -12,8 +12,8 @@ import constants from '../../constants'
 const addAuthHeader = token => {
   return token
     ? {
-      Authorization: `Bearer ${token}`
-    }
+        Authorization: `Bearer ${token}`
+      }
     : undefined
 }
 
@@ -54,8 +54,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-export const currentUser = () => token && decode(token).id 
-export const isCurrentUser = (id) => {
+export const currentUser = () => token && decode(token).id
+export const isCurrentUser = id => {
   return currentUser() === Number(id)
 }
 export default client
