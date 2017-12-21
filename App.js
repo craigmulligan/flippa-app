@@ -30,14 +30,14 @@ const App = TabNavigator(
     Notifications: {
       screen: Notifications
     },
-    Store: {
+    Profile: {
       screen: Profile,
       path: '/profile/:id'
     }
   },
   {
     tabBarPosition: 'bottom',
-    initialRouteName: 'Store',
+    initialRouteName: 'Profile',
     animationEnabled: true,
     tabBarOptions: {
       activeTintColor: '#e91e63',
@@ -57,7 +57,7 @@ const RootNavigator = StackNavigator(
   {
     initialRouteName: 'Loading',
     navigationOptions: {
-      headerMode: 'none'
+      header: null
     },
     cardStyle: {
       // https://github.com/react-community/react-navigation/issues/1478

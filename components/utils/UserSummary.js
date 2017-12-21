@@ -8,7 +8,7 @@ export default withNavigation(
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate(`Store`, {
+          navigation.navigate(`Profile`, {
             id
           })
         }}

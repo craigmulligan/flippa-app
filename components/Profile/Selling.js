@@ -33,14 +33,14 @@ export default graphql(
     }
   `,
   {
-    options: props => {
+    options: ({ screenProps })=> {
       return {
         variables: {
           offset: 0,
           limit: posts_per_page,
           filter: {
             where: {
-              userId: 22 
+              userId: screenProps.userId 
             }
           }
         }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { SecureStore } from 'expo'
 import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
-import { ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import { StackNavigator, TabNavigator } from 'react-navigation'
@@ -71,7 +71,7 @@ class Profile extends Component {
 
   render() {
     return (
-      <ScrollView>
+      <View>
         <FormLabel>Store Name</FormLabel>
         <FormInput
           value={this.state.displayName}
@@ -101,8 +101,12 @@ class Profile extends Component {
                 input: {
                   displayName
                 }
-              }
+              },
+              refetchQueries: [
+                'User'
+              ]
             })
+            this.props.navigation.navigate('Store')
           }}
         />
         <Button
@@ -113,7 +117,7 @@ class Profile extends Component {
           }}
         />
         <ProfileNav />
-      </ScrollView>
+      </View>
     )
   }
 }

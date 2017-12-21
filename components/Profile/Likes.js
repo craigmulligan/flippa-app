@@ -33,12 +33,12 @@ export default graphql(
     }
   `,
   {
-    options: props => ({
+    options:({ screenProps }) => ({
       variables: {
         offset: 0,
         limit: 10,
         filter: {
-          likers: 22
+          likers: screenProps.userId 
         }
       }
     })

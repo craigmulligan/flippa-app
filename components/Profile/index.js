@@ -12,71 +12,24 @@ import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
 import PropTypes from 'prop-types'
 import { UserSummary, FollowSummary, Follow } from '../utils'
 import {
- isCurrentUser 
+  isCurrentUser 
 } from '../../src/apollo/client'
+import Store from './Store'
 import Edit from './Edit'
 
-const Col = (props) => <View style={styles.col} {...props} />
-
-const ProfileNav = TabNavigator(
+const ProfileNav = StackNavigator(
   {
-    Likes: {
-      screen: Likes
+    Store: {
+      screen: Store 
     },
-    Selling: {
-      screen: Selling
+    Edit: {
+      screen: Edit
     }
   },
   {
-    // need these settings for the navigator to work
-    // https://github.com/react-community/react-navigation/issues/662
-    tabBarPosition: 'top',
-    animationEnabled: false,
-    swipeEnabled: false,
-    lazyLoad: true,
-    tabBarOptions: {
-      activeTintColor: '#e91e63'
-    }
+    initialRouteName: 'Store'
   }
 )
-
-const StoreNav = StackNavigator(
-  {
-    Edit: {
-      screen: Edit
-    },
-    Store: {
-      screen: (props) => {
-        return (<ProfileNav {...props} />)
-      }
-    }
-  }
-)
-
-const updateUserMutation = gql`
-  mutation($input: UserInput!) {
-    updateUser(input: $input) {
-      displayName
-    }
-  }
-`
-
-export const userQuery = gql`
-  query User($id: ID) {
-    User(id: $id) {
-      id
-      displayName
-      phoneNumber
-      avatar
-      followers {
-        id
-      }
-      following {
-        id
-      }
-    }
-  }
-`
 
 class Profile extends Component {
   constructor(props) {
@@ -110,52 +63,12 @@ class Profile extends Component {
   }
 
   render() {
-    const { User } = this.props.data
     return (
-      <ScrollView>
-        <Button
-          title="Logout"
-          onPress={async () => {
-            await SecureStore.deleteItemAsync('token')
-            this.props.navigation.navigate('Login')
-          }}
-        />
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-          <UserSummary {...User} />
-          <View>
-            {
-              !isCurrentUser(get(User, 'id')) && <Follow id={get(User, 'id')} />
-            }
-            {
-              isCurrentUser(get(User, 'id')) && (
-                <TouchableOpacity 
-                  onPress={() => {
-                    
-                  }} 
-                >
-                  <Icon name={'edit'} />
-                </TouchableOpacity>
-              )
-            }
-          </View>
-        </View>
-        <FollowSummary {...User} />
-        <StoreNav screenProps={{ userId: get(User, 'id') }} />
-      </ScrollView>
+      <ProfileNav screenProps={{
+        userId: this.props.navigation.state.id
+      }} />
     )
   }
 }
 
-export default compose(
-  withNavigationFocus,
-  graphql(updateUserMutation, { name: 'updateUser' }),
-  graphql(userQuery, {
-    options: ({ navigation }) => {
-      return { variables: { id: get(navigation, 'state.params.id') } }
-    }
-  })
-)(Profile)
+export default Profile
