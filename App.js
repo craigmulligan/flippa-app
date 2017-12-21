@@ -15,6 +15,9 @@ import { updateFocus } from '@patwoz/react-navigation-is-focused-hoc'
 import client from './src/apollo/client'
 
 import { StackNavigator, TabNavigator } from 'react-navigation'
+import Store from './components/Profile/Store'
+import Post from './components/Explore/Post'
+import Provider from './Providers/RootNavigation'
 
 const App = TabNavigator(
   {
@@ -47,17 +50,26 @@ const App = TabNavigator(
   }
 )
 
+console.log(App.router)
 const RootNavigator = StackNavigator(
   {
     Login: { screen: Login },
     Verify: { screen: Verify },
-    App: { screen: App },
+    App: { screen: ({ navigation }) => <Provider><App /></Provider> },
+    Post: {
+      screen: Post,
+      path: '/Post/:id'
+    },
+    Store: {
+      screen: Store,
+      path: '/Store/:id'
+    },
     Loading: { screen: Loading }
   },
   {
     initialRouteName: 'Loading',
     navigationOptions: {
-      header: null
+//      header: null
     },
     cardStyle: {
       // https://github.com/react-community/react-navigation/issues/1478

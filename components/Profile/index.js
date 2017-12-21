@@ -9,7 +9,8 @@ import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
 const ProfileNav = StackNavigator(
   {
     Store: {
-      screen: Store
+      screen: Store,
+      path: '/Store/:id'
     },
     Edit: {
       screen: Edit

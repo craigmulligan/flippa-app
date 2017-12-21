@@ -63,11 +63,11 @@ class Profile extends Component {
     this.state = {}
   }
 
-  static navigationOptions = () => ({
+  static navigationOptions = ({ showHeader }) => ({
     tabBarIcon: () => {
       return <Icon name="person" />
     },
-    header: null
+    header: !showHeader && null
   })
 
   render() {
