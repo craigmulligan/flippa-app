@@ -1,22 +1,16 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import constants from '../../constants'
 import { Like, TimeStamp, UserSummary, Image } from './'
 
 export default ({ id, title, likes, createdAt, price, files, user }) => {
   return (
-    <View
-      style={{
-        paddingBottom: 10,
-        backgroundColor: '#FFFFFF'
-      }}
-    >
+    <ScrollView>
       <UserSummary {...user} />
-      <View style={{ flex: 1 }}>
+      <View style={{ flexDirection: 'row'}}>
         <Image source={{ uri: files && files[0].url }} />
       </View>
-      <View style={{ flex: 1 }}>
         <View
           style={{
             alignItems: 'center',
@@ -49,7 +43,6 @@ export default ({ id, title, likes, createdAt, price, files, user }) => {
             title="Make an Offer"
           />
         </View>
-      </View>
-    </View>
+    </ScrollView>
   )
 }
