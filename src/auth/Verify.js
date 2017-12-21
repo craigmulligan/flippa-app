@@ -36,7 +36,7 @@ class Verify extends Component {
           }
         })
         await SecureStore.setItemAsync('token', data.verifyCode)
-       
+
         this.props.navigation.navigate('App')
       } catch (err) {
         // console.log(err)

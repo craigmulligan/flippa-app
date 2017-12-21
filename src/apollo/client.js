@@ -5,7 +5,7 @@ import { setContext } from 'apollo-link-context'
 import { ApolloLink, from } from 'apollo-link'
 import { onError } from 'apollo-link-error'
 import { createUploadLink } from 'apollo-upload-client'
-import store, { actions } from '../redux' 
+import store, { actions } from '../redux'
 import constants from '../../constants'
 
 const addAuthHeader = token => {
@@ -18,7 +18,7 @@ const addAuthHeader = token => {
 
 // cache token so we don't have to look up for every request
 const withToken = setContext(async (operation, { headers }) => {
-  let token = store.getState().currentUser.token 
+  let token = store.getState().currentUser.token
   if (!token) {
     token = await SecureStore.getItemAsync('token')
     store.dispatch(actions.setCurrentUser(token))

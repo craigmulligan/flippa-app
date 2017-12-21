@@ -2,18 +2,18 @@ import { createStore, combineReducers } from 'redux'
 import decode from 'jwt-decode'
 
 export const actions = {
-  setNavigation: (navigation) => ({
+  setNavigation: navigation => ({
     type: 'SET_NAVIGATION',
     payload: navigation
   }),
-  setCurrentUser: (token) => ({
+  setCurrentUser: token => ({
     type: 'SET_CURRENT_USER',
     payload: token
   }),
   deleteCurrentUser: () => ({
     type: 'DELETE_CURRENT_USER'
   })
-} 
+}
 
 const navigation = (state = {}, action) => {
   switch (action.type) {
@@ -34,8 +34,8 @@ const currentUser = (state = {}, action) => {
         token: action.payload,
         ...decode(action.payload)
       }
-    case 'DELETE_CURRENT_USER':  
-      return {} 
+    case 'DELETE_CURRENT_USER':
+      return {}
     default:
       return state
   }

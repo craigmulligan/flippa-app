@@ -4,9 +4,6 @@ import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
 import { View } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
-import { TabNavigator } from 'react-navigation'
-import Likes from './Likes'
-import Selling from './Selling'
 
 const updateUserMutation = gql`
   mutation($input: UserInput!) {

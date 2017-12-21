@@ -1,25 +1,8 @@
 import React, { Component } from 'react'
 import { Icon } from 'react-native-elements'
-import { StackNavigator } from 'react-navigation'
 import PropTypes from 'prop-types'
 import Store from './Store'
-import Edit from './Edit'
 import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
-
-const ProfileNav = StackNavigator(
-  {
-    Store: {
-      screen: Store,
-      path: '/Store/:id'
-    },
-    Edit: {
-      screen: Edit
-    }
-  },
-  {
-    initialroutename: 'Store'
-  }
-)
 
 class Profile extends Component {
   constructor(props) {

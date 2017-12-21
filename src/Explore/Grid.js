@@ -1,5 +1,4 @@
 import React from 'react'
-import { Icon } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { List } from '../components'

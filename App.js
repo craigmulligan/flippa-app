@@ -6,7 +6,6 @@ import Verify from './src/auth/Verify'
 import Loading from './src/Loading'
 import Feed from './src/Feed'
 import Explore from './src/Explore'
-import Profile from './src/Profile'
 import Sell from './src/Sell'
 import Notifications from './src/Notifications'
 import { updateFocus } from '@patwoz/react-navigation-is-focused-hoc'
@@ -35,7 +34,7 @@ const App = TabNavigator(
     Profile: {
       screen: Store,
       path: '/profile/:id'
-    },
+    }
   },
   {
     tabBarPosition: 'bottom',
@@ -75,7 +74,7 @@ const RootNavigator = StackNavigator(
         actions.setNavigation({
           rootNavigation: navigation
         })
-      ) 
+      )
       return {}
     },
     cardStyle: {
@@ -89,13 +88,13 @@ export default class Root extends React.Component {
   render() {
     return (
       <Provider store={store}>
-      <ApolloProvider client={client}>
-      <RootNavigator
-      onNavigationStateChange={(prevState, currentState) => {
-        updateFocus(currentState)
-      }}
-      />
-      </ApolloProvider>
+        <ApolloProvider client={client}>
+          <RootNavigator
+            onNavigationStateChange={(prevState, currentState) => {
+              updateFocus(currentState)
+            }}
+          />
+        </ApolloProvider>
       </Provider>
     )
   }

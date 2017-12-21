@@ -3,7 +3,6 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { Post } from '../components'
 import { View } from 'react-native'
-import { SafeAreaView } from 'react-native'
 const P = props => (
   <View>
     <Post {...props} />
@@ -42,7 +41,12 @@ export default graphql(
       }
     },
     props: ({ ownProps, data: { loading, Post, refetch } }) => {
-      return Post
+      return {
+        Post,
+        loading,
+        refetch,
+        ...ownProps
+      }
     }
   }
 )(P)
