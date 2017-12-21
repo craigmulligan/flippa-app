@@ -1,12 +1,19 @@
 import React from 'react'
-import { View, FlatList, ActivityIndicator } from 'react-native'
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native'
 import { SearchBar, Divider } from 'react-native-elements'
-import { Post, Empty } from '../utils'
+import { Post, Empty, Image } from '../utils'
 import isEmpty from 'lodash/isEmpty'
+import { withNavigation } from 'react-navigation'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
 
-const PostList = ({ data }) => {
+const PostList = ({ data, grid, navigation }) => {
   const { loading, Posts, refetch, fetchMore } = data
 
   const _renderHeader = () => {
@@ -46,13 +53,31 @@ const PostList = ({ data }) => {
     )
   }
 
+  const _renderRow = ({ item }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Post', { id: item.id })}
+        style={grid && styles.row}
+      >
+        {grid ? (
+          <View>
+            <Image source={{ uri: item.files && item.files[0].url }} />
+          </View>
+        ) : (
+          <Post {...item} />
+        )}
+      </TouchableOpacity>
+    )
+  }
+
   return (
     <View>
       {loading && <ActivityIndicator />}
       {!isEmpty(Posts) && (
         <FlatList
+          numColumns={grid && 3}
           data={Posts}
-          renderItem={({ item }) => <Post {...item} />}
+          renderItem={_renderRow}
           keyExtractor={item => item.id}
           refreshing={loading}
           onRefresh={refetch}
@@ -69,4 +94,16 @@ const PostList = ({ data }) => {
   )
 }
 
-export default PostList
+const styles = StyleSheet.create({
+  list: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  row: {
+    flex: 1,
+    height: 100
+  }
+})
+
+export default withNavigation(PostList)

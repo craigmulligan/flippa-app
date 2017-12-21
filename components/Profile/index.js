@@ -16,7 +16,7 @@ const ProfileNav = StackNavigator(
     }
   },
   {
-    initialRouteName: 'Store'
+    initialroutename: 'Store'
   }
 )
 
