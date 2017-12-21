@@ -3,14 +3,16 @@ import { Avatar } from 'react-native-elements'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { withNavigation } from 'react-navigation'
 import withRootNav from '../../Providers/withRootNav'
+// we don't use connect because that causes side effects we rendering App.js
+import store from '../../src/redux'
 
-export default withNavigation(
-  ({ phoneNumber, displayName, id, navigation }) => {
+export default 
+  ({ phoneNumber, displayName, id }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          withRootNav.get().navigate(`Store`, {
-            id
+          store.getState().navigation.rootNavigation.navigate(`Store`, {
+             id
           })
         }}
       >
@@ -46,4 +48,4 @@ export default withNavigation(
       </TouchableOpacity>
     )
   }
-)
+

@@ -18,9 +18,9 @@ import { StackNavigator, TabNavigator } from 'react-navigation'
 import Store from './components/Profile/Store'
 import Post from './components/Explore/Post'
 import NavigationProvider from './Providers/RootNavigation'
-import withRootNav from './Providers/withRootNav'
+import store, { actions } from './src/redux'
+import { Provider } from 'react-redux'
 
-console.log(withRootNav)
 const App = TabNavigator(
   {
     Feed: {
@@ -69,8 +69,12 @@ const RootNavigator = StackNavigator(
   },
   {
     initialRouteName: 'Loading',
-    navigationOptions: ({navigation}) => {
-      withRootNav.update(navigation) 
+    navigationOptions: ({ navigation }) => {
+      store.dispatch(
+        actions.setNavigation({
+          rootNavigation: navigation
+        })
+      ) 
       return {}
     },
     cardStyle: {
@@ -83,13 +87,15 @@ const RootNavigator = StackNavigator(
 export default class Root extends React.Component {
   render() {
     return (
+      <Provider store={store}>
       <ApolloProvider client={client}>
-        <RootNavigator
-          onNavigationStateChange={(prevState, currentState) => {
-            updateFocus(currentState)
-          }}
-        />
+      <RootNavigator
+      onNavigationStateChange={(prevState, currentState) => {
+        updateFocus(currentState)
+      }}
+      />
       </ApolloProvider>
+      </Provider>
     )
   }
 }
