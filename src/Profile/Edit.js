@@ -8,28 +8,6 @@ import { TabNavigator } from 'react-navigation'
 import Likes from './Likes'
 import Selling from './Selling'
 
-const ProfileNav = TabNavigator(
-  {
-    Likes: {
-      screen: Likes
-    },
-    Selling: {
-      screen: Selling
-    }
-  },
-  {
-    // need these settings for the navigator to work
-    // https://github.com/react-community/react-navigation/issues/662
-    tabBarPosition: 'top',
-    animationEnabled: false,
-    swipeEnabled: false,
-    lazyLoad: true,
-    tabBarOptions: {
-      activeTintColor: '#e91e63'
-    }
-  }
-)
-
 const updateUserMutation = gql`
   mutation($input: UserInput!) {
     updateUser(input: $input) {
@@ -104,7 +82,7 @@ class Profile extends Component {
               },
               refetchQueries: ['User']
             })
-            this.props.navigation.navigate('Store')
+            this.props.navigation.navigate('Profile')
           }}
         />
         <Button
@@ -114,7 +92,6 @@ class Profile extends Component {
             this.props.navigation.navigate('Login')
           }}
         />
-        <ProfileNav />
       </View>
     )
   }

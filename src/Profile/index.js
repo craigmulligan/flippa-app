@@ -54,7 +54,7 @@ class Profile extends Component {
 
   render() {
     return (
-      <ProfileNav
+      <Store
         screenProps={{
           userId: this.props.navigation.state.id
         }}

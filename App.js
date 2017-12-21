@@ -1,7 +1,6 @@
 import React from 'react'
 import { Platform, StatusBar } from 'react-native'
 import { ApolloProvider } from 'react-apollo'
-
 import Login from './src/auth/Login'
 import Verify from './src/auth/Verify'
 import Loading from './src/Loading'
@@ -10,13 +9,12 @@ import Explore from './src/Explore'
 import Profile from './src/Profile'
 import Sell from './src/Sell'
 import Notifications from './src/Notifications'
-
 import { updateFocus } from '@patwoz/react-navigation-is-focused-hoc'
 import client from './src/apollo/client'
-
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import Store from './src/Profile/Store'
 import Post from './src/Explore/Post'
+import Edit from './src/Profile/Edit'
 import store, { actions } from './src/redux'
 import { Provider } from 'react-redux'
 
@@ -35,9 +33,9 @@ const App = TabNavigator(
       screen: Notifications
     },
     Profile: {
-      screen: Profile,
+      screen: Store,
       path: '/profile/:id'
-    }
+    },
   },
   {
     tabBarPosition: 'bottom',
@@ -63,6 +61,10 @@ const RootNavigator = StackNavigator(
     Store: {
       screen: Store,
       path: '/Store/:id'
+    },
+    EditProfile: {
+      screen: Edit,
+      path: '/profile/:id/edit'
     },
     Loading: { screen: Loading }
   },

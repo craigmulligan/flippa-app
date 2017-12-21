@@ -6,7 +6,7 @@ import { graphql, compose } from 'react-apollo'
 import constants from '../../constants'
 import isArray from 'lodash/isArray'
 import get from 'lodash/get'
-import { userQuery } from '../Profile'
+import { userQuery } from '../Profile/Store'
 
 const followUserMutation = gql`
   mutation($id: ID!) {

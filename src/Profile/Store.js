@@ -9,6 +9,8 @@ import Likes from './Likes'
 import Selling from './Selling'
 import { UserSummary, FollowSummary, Follow } from '../components'
 import { isCurrentUser } from '../../src/apollo/client'
+import store from '../redux'
+
 
 const StoreNav = TabNavigator(
   {
@@ -71,6 +73,7 @@ class Profile extends Component {
   })
 
   render() {
+    const { navigation: { rootNavigation } } = store.getState()
     const { User } = this.props.data
     return (
       <ScrollView>
@@ -87,7 +90,7 @@ class Profile extends Component {
             {isCurrentUser(get(User, 'id')) && (
               <TouchableOpacity
                 onPress={() => {
-                  this.props.navigation.navigate('Edit')
+                  rootNavigation.navigate('EditProfile', { id: get(User, 'id') }) 
                 }}
               >
                 <Icon name={'edit'} />
