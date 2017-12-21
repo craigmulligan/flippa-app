@@ -7,7 +7,7 @@ import { graphql, compose } from 'react-apollo'
 import { TabNavigator } from 'react-navigation'
 import Likes from './Likes'
 import Selling from './Selling'
-import { UserSummary, FollowSummary, Follow } from '../utils'
+import { UserSummary, FollowSummary, Follow } from '../components'
 import { isCurrentUser } from '../../src/apollo/client'
 
 const StoreNav = TabNavigator(

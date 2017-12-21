@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from 'react-native'
 import { SearchBar, Divider } from 'react-native-elements'
-import { Post, Empty, Image } from '../utils'
+import { Post, Empty, Image } from '../components'
 import isEmpty from 'lodash/isEmpty'
 import { withNavigation } from 'react-navigation'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6

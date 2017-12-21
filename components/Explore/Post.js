@@ -1,7 +1,7 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import { Post } from '../utils'
+import { Post } from '../components'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native'
 const P = props => (

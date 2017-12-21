@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { withNavigation } from 'react-navigation'
-import { TimeStamp } from '../utils'
+import { TimeStamp } from '../components'
 
 export default withNavigation(({ actor, post, navigation, createdAt }) => {
   return (
