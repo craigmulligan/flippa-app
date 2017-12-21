@@ -2,13 +2,14 @@ import React from 'react'
 import { Avatar } from 'react-native-elements'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { withNavigation } from 'react-navigation'
+import withRootNav from '../../Providers/withRootNav'
 
 export default withNavigation(
   ({ phoneNumber, displayName, id, navigation }) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate(`Store`, {
+          withRootNav.get().navigate(`Store`, {
             id
           })
         }}

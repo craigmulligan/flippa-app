@@ -17,8 +17,10 @@ import client from './src/apollo/client'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import Store from './components/Profile/Store'
 import Post from './components/Explore/Post'
-import Provider from './Providers/RootNavigation'
+import NavigationProvider from './Providers/RootNavigation'
+import withRootNav from './Providers/withRootNav'
 
+console.log(withRootNav)
 const App = TabNavigator(
   {
     Feed: {
@@ -50,12 +52,11 @@ const App = TabNavigator(
   }
 )
 
-console.log(App.router)
 const RootNavigator = StackNavigator(
   {
     Login: { screen: Login },
     Verify: { screen: Verify },
-    App: { screen: ({ navigation }) => <Provider><App /></Provider> },
+    App: { screen: App },
     Post: {
       screen: Post,
       path: '/Post/:id'
@@ -68,8 +69,9 @@ const RootNavigator = StackNavigator(
   },
   {
     initialRouteName: 'Loading',
-    navigationOptions: {
-//      header: null
+    navigationOptions: ({navigation}) => {
+      withRootNav.update(navigation) 
+      return {}
     },
     cardStyle: {
       // https://github.com/react-community/react-navigation/issues/1478
