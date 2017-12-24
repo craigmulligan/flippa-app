@@ -3,14 +3,16 @@ import { Icon } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { List } from '../components'
-import { posts_per_page } from '../../constants'
+import { posts_per_page } from '../constants'
+import { theme } from '../constants'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
-
 List.navigationOptions = {
-  // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-  tabBarIcon: () => <Icon name="home" />
-}
+    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+    tabBarIcon: ({ tintColor, focused }) => {
+     return <Icon color={focused ? tintColor : theme.colors.grayDark} name="home" />
+    }
+  }
 
 export const feedQuery = gql`
   query feedQuery($limit: Int, $offset: Int) {

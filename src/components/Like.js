@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
-import constants from '../../constants'
+import constants from '../constants'
 import isArray from 'lodash/isArray'
 import get from 'lodash/get'
 

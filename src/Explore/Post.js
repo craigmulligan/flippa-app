@@ -3,11 +3,13 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { Post } from '../components'
 import { View } from 'react-native'
-const P = props => (
+const P = props => {
+  return (
   <View>
     <Post {...props} />
   </View>
-)
+  )}
+
 export default graphql(
   gql`
     query Post($id: ID) {
@@ -42,11 +44,11 @@ export default graphql(
     },
     props: ({ ownProps, data: { loading, Post, refetch } }) => {
       return {
-        Post,
+        ...Post,
         loading,
         refetch,
         ...ownProps
       }
     }
   }
-)(P)
+)(Post)

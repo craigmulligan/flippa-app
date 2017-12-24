@@ -4,12 +4,11 @@ import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
 import { ScrollView, StyleSheet } from 'react-native'
 import { ReactNativeFile } from 'apollo-upload-client'
 import shortid from 'shortid'
-
 import { Image, ImageForm } from './components'
-
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
-import constants from '../constants'
+import { theme } from './constants'
+import store from './redux'
 
 const createPostMutation = gql`
   mutation($input: PostInput!) {
@@ -36,14 +35,14 @@ class Sell extends Component {
       description: '',
       price: '',
       image: null,
-      fileId: null,
+      files: [],
       uploading: ''
     }
   }
-
   static navigationOptions = {
-    tabBarIcon: () => {
-      return <Icon name="camera" />
+    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+    tabBarIcon: ({ tintColor, focused }) => {
+     return <Icon color={focused ? tintColor : theme.colors.grayDark} name="camera" />
     }
   }
 
@@ -64,6 +63,7 @@ class Sell extends Component {
     try {
       this.setState({ uploading: true })
 
+      console.log({pickerResult})
       if (!pickerResult.cancelled) {
         this.setState({ image: pickerResult.uri })
         const type = pickerResult.uri.slice(-3)
@@ -75,8 +75,12 @@ class Sell extends Component {
         const { data } = await this.props.uploadImage({
           variables: { file: f }
         })
+
         this.setState({
-          fileId: data.singleUpload.id
+          files: [
+            ...this.state.files,
+            data.singleUpload.id
+          ]
         })
       }
     } catch (e) {
@@ -131,7 +135,20 @@ class Sell extends Component {
             await this.props.createPost({
               variables: {
                 input: rest
-              }
+              },
+              refetchqueries: [
+                {
+                  query: 'sellingQuery',
+                  variables: {
+                    filter: {
+                      where: {
+                        userId: store.getState().currentUser.id
+                      }
+                    } 
+                  }
+                },
+                'feedQuery'
+              ]
             })
             this.props.navigation.navigate('Feed')
           }}
@@ -143,7 +160,7 @@ class Sell extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: constants.theme.colors.grayMedium,
+    backgroundColor: theme.colors.grayMedium,
     padding: 10
   },
   contentContainer: {

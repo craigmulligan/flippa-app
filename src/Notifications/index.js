@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import Notification from './Notification'
 import get from 'lodash/get'
+import { theme } from '../constants'
 
 const NofificationList = ({ data }) => {
   const { loading, User, refetch } = data
@@ -30,11 +31,12 @@ const NofificationList = ({ data }) => {
 }
 
 NofificationList.navigationOptions = {
-  tabBarIcon: () => {
+  tabBarIcon: ({ tintColor, focused }) => {
     return (
       <View>
         <Badge
           value={3}
+          color={focused ? tintColor : theme.colors.grayDark} 
           wrapperStyle={{
             position: 'absolute',
             zIndex: 2,
@@ -49,7 +51,9 @@ NofificationList.navigationOptions = {
             flex: -1
           }}
         />
-        <Icon name="notifications" />
+        <Icon
+          color={focused ? tintColor : theme.colors.grayDark} 
+          name="notifications" />
       </View>
     )
   }

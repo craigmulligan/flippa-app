@@ -1,15 +1,16 @@
 import React from 'react'
 import { View, ScrollView } from 'react-native'
 import { Text, Button } from 'react-native-elements'
-import constants from '../../constants'
+import constants from '../constants'
 import { Like, TimeStamp, UserSummary, Image } from './'
+import get from 'lodash/get'
 
 export default ({ id, title, likes, createdAt, price, files, user }) => {
   return (
     <ScrollView>
       <UserSummary {...user} />
       <View style={{ flexDirection: 'row' }}>
-        <Image source={{ uri: files && files[0].url }} />
+        <Image source={{ uri: files && get(files, '[0].url') }} />
       </View>
       <View
         style={{

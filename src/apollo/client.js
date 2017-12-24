@@ -6,7 +6,7 @@ import { ApolloLink, from } from 'apollo-link'
 import { onError } from 'apollo-link-error'
 import { createUploadLink } from 'apollo-upload-client'
 import store, { actions } from '../redux'
-import constants from '../../constants'
+import constants from '../constants'
 
 const addAuthHeader = token => {
   return token

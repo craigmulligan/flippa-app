@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 import { Icon } from 'react-native-elements'
 
-import constants from '../../constants'
+import constants from '../constants'
 
 export default ({ onPress }) => {
   return (

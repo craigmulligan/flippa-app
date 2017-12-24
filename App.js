@@ -8,7 +8,6 @@ import Feed from './src/Feed'
 import Explore from './src/Explore'
 import Sell from './src/Sell'
 import Notifications from './src/Notifications'
-import { updateFocus } from '@patwoz/react-navigation-is-focused-hoc'
 import client from './src/apollo/client'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import Store from './src/Profile/Store'
@@ -16,6 +15,10 @@ import Post from './src/Explore/Post'
 import Edit from './src/Profile/Edit'
 import store, { actions } from './src/redux'
 import { Provider } from 'react-redux'
+import {
+  theme
+} from './src/constants'
+import styles from './src/styles'
 
 const App = TabNavigator(
   {
@@ -41,9 +44,13 @@ const App = TabNavigator(
     initialRouteName: 'Explore',
     animationEnabled: true,
     tabBarOptions: {
-      activeTintColor: '#e91e63',
+      activeTintColor: theme.colors.blue,
       showIcon: true,
-      showLabel: false
+      showLabel: false,
+      style: styles.tabBar, 
+      indicatorStyle: { 
+        backgroundColor: 'transparent' 
+      } 
     }
   }
 )
@@ -89,11 +96,7 @@ export default class Root extends React.Component {
     return (
       <Provider store={store}>
         <ApolloProvider client={client}>
-          <RootNavigator
-            onNavigationStateChange={(prevState, currentState) => {
-              updateFocus(currentState)
-            }}
-          />
+          <RootNavigator />
         </ApolloProvider>
       </Provider>
     )

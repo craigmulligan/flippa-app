@@ -9,6 +9,7 @@ import {
 import { SearchBar, Divider } from 'react-native-elements'
 import { Post, Empty, Image } from '../components'
 import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
 import { withNavigation } from 'react-navigation'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
@@ -54,20 +55,22 @@ const PostList = ({ data, grid, navigation }) => {
   }
 
   const _renderRow = ({ item }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Post', { id: item.id })}
-        style={grid && styles.row}
-      >
-        {grid ? (
-          <View>
-            <Image source={{ uri: item.files && item.files[0].url }} />
-          </View>
-        ) : (
+    if (grid) {
+        return (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Post', { id: item.id })}
+            style={grid && styles.row}
+          >
+            <View>
+              <Image source={{ uri: get(item, 'files[0].url') }} />
+            </View>
+          </TouchableOpacity>
+        ) 
+    } else {
+       return(
           <Post {...item} />
-        )}
-      </TouchableOpacity>
-    )
+        )
+    }
   }
 
   return (

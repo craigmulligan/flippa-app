@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { SecureStore } from 'expo'
 import { FormLabel, FormInput } from 'react-native-elements'
 import { View } from 'react-native'
-import constants from '../../constants'
+import constants from '../constants'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 

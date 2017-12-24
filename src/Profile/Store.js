@@ -10,6 +10,7 @@ import Selling from './Selling'
 import { UserSummary, FollowSummary, Follow } from '../components'
 import { isCurrentUser } from '../../src/apollo/client'
 import store from '../redux'
+import { theme }from '../constants'
 
 const StoreNav = TabNavigator(
   {
@@ -65,8 +66,8 @@ class Profile extends Component {
   }
 
   static navigationOptions = ({ showHeader }) => ({
-    tabBarIcon: () => {
-      return <Icon name="person" />
+    tabBarIcon: ({ tintColor, focused }) => {
+     return <Icon color={focused ? tintColor : theme.colors.grayDark} name="person" />
     },
     header: !showHeader && null
   })

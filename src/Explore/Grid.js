@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { List } from '../components'
-import { posts_per_page } from '../../constants'
+import { posts_per_page } from '../constants'
 // https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
 // http://rationalappdev.com/react-native-list-app-complete-how-to-guide/
 

@@ -7,12 +7,8 @@ const getHostMachine = () => {
   return `http://${ip}:8080`
 }
 
-export default {
-  api: isDev ? getHostMachine() : Constants.manifest.extra.api,
-  verificationCodeLength: 4,
-  posts_per_page: 10,
-  theme: {
-    colors: {
+export const theme = {
+  colors: {
       blue: '#2892D7',
       blueDark: '#1B3B6F',
       blueLight: '#6DAEDB',
@@ -25,4 +21,10 @@ export default {
     },
     space: 10
   }
+
+export default {
+  api: isDev ? getHostMachine() : Constants.manifest.extra.api,
+  verificationCodeLength: 4,
+  theme,
+  posts_per_page: 10,
 }

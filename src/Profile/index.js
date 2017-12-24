@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Icon } from 'react-native-elements'
 import PropTypes from 'prop-types'
 import Store from './Store'
-import { withNavigationFocus } from '@patwoz/react-navigation-is-focused-hoc'
+import { theme } from '../constants'
 
 class Profile extends Component {
   constructor(props) {
@@ -10,40 +10,22 @@ class Profile extends Component {
     this.state = {}
   }
 
-  static navigationOptions = () => ({
-    tabBarIcon: () => {
-      return <Icon name="person" />
-    }
-  })
-
-  static propTypes = {
-    isFocused: PropTypes.bool.isRequired,
-    focusedRouteKey: PropTypes.string.isRequired
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.User)
-    if (!this.props.isFocused && nextProps.isFocused) {
-      // screen enter (refresh data, update ui ...)
-    }
-    if (this.props.isFocused && !nextProps.isFocused) {
-      // on tab dismount we set profile page
-      // back to the current user
-      this.props.navigation.setParams({
-        id: undefined
-      })
+  static navigationOptions = {
+    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+    tabBarIcon: ({ tintColor, focused }) => {
+      return <Icon color={'red'} name="person" />
     }
   }
 
   render() {
     return (
       <Store
-        screenProps={{
-          userId: this.props.navigation.state.id
-        }}
+      screenProps={{
+        userId: this.props.navigation.state.id
+      }}
       />
     )
   }
 }
 
-export default withNavigationFocus(Profile)
+export default Profile

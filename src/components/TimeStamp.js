@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from 'react-native-elements'
 import { distanceInWordsToNow } from 'date-fns'
-import constants from '../../constants'
+import constants from '../constants'
 
 export default ({ createdAt }) => {
   return (
