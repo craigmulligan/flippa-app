@@ -1,14 +1,6 @@
-import React from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { Post } from '../components'
-import { View } from 'react-native'
-const P = props => {
-  return (
-  <View>
-    <Post {...props} />
-  </View>
-  )}
 
 export default graphql(
   gql`

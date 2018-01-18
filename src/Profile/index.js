@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Icon } from 'react-native-elements'
-import PropTypes from 'prop-types'
 import Store from './Store'
-import { theme } from '../constants'
 
 class Profile extends Component {
   constructor(props) {
@@ -12,7 +10,7 @@ class Profile extends Component {
 
   static navigationOptions = {
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor, focused }) => {
+    tabBarIcon: () => {
       return <Icon color={'red'} name="person" />
     }
   }
@@ -20,9 +18,9 @@ class Profile extends Component {
   render() {
     return (
       <Store
-      screenProps={{
-        userId: this.props.navigation.state.id
-      }}
+        screenProps={{
+          userId: this.props.navigation.state.id
+        }}
       />
     )
   }

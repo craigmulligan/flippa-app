@@ -8,7 +8,12 @@ import { theme } from '../constants'
 Grid.navigationOptions = {
   // Note: By default the icon is only shown on iOS. Search the showIcon option below.
   tabBarIcon: ({ tintColor, focused }) => {
-   return <Icon color={focused ? tintColor : theme.colors.grayDark} name="explore" />
+    return (
+      <Icon
+        color={focused ? tintColor : theme.colors.grayDark}
+        name="explore"
+      />
+    )
   }
 }
 

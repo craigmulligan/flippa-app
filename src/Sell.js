@@ -42,7 +42,12 @@ class Sell extends Component {
   static navigationOptions = {
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     tabBarIcon: ({ tintColor, focused }) => {
-     return <Icon color={focused ? tintColor : theme.colors.grayDark} name="camera" />
+      return (
+        <Icon
+          color={focused ? tintColor : theme.colors.grayDark}
+          name="camera"
+        />
+      )
     }
   }
 
@@ -63,7 +68,6 @@ class Sell extends Component {
     try {
       this.setState({ uploading: true })
 
-      console.log({pickerResult})
       if (!pickerResult.cancelled) {
         this.setState({ image: pickerResult.uri })
         const type = pickerResult.uri.slice(-3)
@@ -77,10 +81,7 @@ class Sell extends Component {
         })
 
         this.setState({
-          files: [
-            ...this.state.files,
-            data.singleUpload.id
-          ]
+          files: [...this.state.files, data.singleUpload.id]
         })
       }
     } catch (e) {
@@ -144,7 +145,7 @@ class Sell extends Component {
                       where: {
                         userId: store.getState().currentUser.id
                       }
-                    } 
+                    }
                   }
                 },
                 'feedQuery'

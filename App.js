@@ -15,9 +15,7 @@ import Post from './src/Explore/Post'
 import Edit from './src/Profile/Edit'
 import store, { actions } from './src/redux'
 import { Provider } from 'react-redux'
-import {
-  theme
-} from './src/constants'
+import { theme } from './src/constants'
 import styles from './src/styles'
 
 const App = TabNavigator(
@@ -47,10 +45,10 @@ const App = TabNavigator(
       activeTintColor: theme.colors.blue,
       showIcon: true,
       showLabel: false,
-      style: styles.tabBar, 
-      indicatorStyle: { 
-        backgroundColor: 'transparent' 
-      } 
+      style: styles.tabBar,
+      indicatorStyle: {
+        backgroundColor: 'transparent'
+      }
     }
   }
 )

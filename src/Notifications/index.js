@@ -36,7 +36,7 @@ NofificationList.navigationOptions = {
       <View>
         <Badge
           value={3}
-          color={focused ? tintColor : theme.colors.grayDark} 
+          color={focused ? tintColor : theme.colors.grayDark}
           wrapperStyle={{
             position: 'absolute',
             zIndex: 2,
@@ -52,8 +52,9 @@ NofificationList.navigationOptions = {
           }}
         />
         <Icon
-          color={focused ? tintColor : theme.colors.grayDark} 
-          name="notifications" />
+          color={focused ? tintColor : theme.colors.grayDark}
+          name="notifications"
+        />
       </View>
     )
   }

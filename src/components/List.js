@@ -56,20 +56,18 @@ const PostList = ({ data, grid, navigation }) => {
 
   const _renderRow = ({ item }) => {
     if (grid) {
-        return (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Post', { id: item.id })}
-            style={grid && styles.row}
-          >
-            <View>
-              <Image source={{ uri: get(item, 'files[0].url') }} />
-            </View>
-          </TouchableOpacity>
-        ) 
+      return (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Post', { id: item.id })}
+          style={grid && styles.row}
+        >
+          <View>
+            <Image source={{ uri: get(item, 'files[0].url') }} />
+          </View>
+        </TouchableOpacity>
+      )
     } else {
-       return(
-          <Post {...item} />
-        )
+      return <Post {...item} />
     }
   }
 
