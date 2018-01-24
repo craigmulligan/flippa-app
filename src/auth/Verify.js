@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { SecureStore } from 'expo'
-import { FormLabel, FormInput } from 'react-native-elements'
-import { View, StyleSheet, Platform, Text } from 'react-native'
+import { FormLabel, FormInput, Text } from 'react-native-elements'
+import { View, StyleSheet, Platform } from 'react-native'
 import constants from '../constants'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
@@ -15,11 +15,18 @@ const VerifyMutation = gql`
 `
 
 const styles = StyleSheet.create({
-  center: { 
-    alignItems:'center',
-    justifyContent: 'center',
-  }, 
+  headerText: {
+    textAlign: 'center'
+  },
+  container: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flex: 1,
+    padding: 20
+  },
   errorText: {
+    marginTop: 20,
+    textAlign: 'center',
     color: theme.colors.red
   }
 })
@@ -62,15 +69,16 @@ class Verify extends Component {
 
   render() {
     return (
-      <View>
-        {
-          !!this.state.error && 
-          <View style={styles.center}>
-            <Text style={styles.errorText}>
-              Oops something went wrong, please try again
-            </Text>
-          </View>
-        }
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.headerText} h4>What's your verification code?</Text>
+          {
+           !!this.state.error && 
+              <Text style={styles.errorText}>
+                Oops something went wrong, please try again
+              </Text>
+          }
+        </View>
         <View>
           <CodeInput
             secureTextEntry
@@ -83,6 +91,8 @@ class Verify extends Component {
             onFulfill={(code) => this.setVerificationCode(code)}
           />
         </View> 
+        <View>
+        </View>
       </View>
     )
   }

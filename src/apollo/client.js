@@ -21,7 +21,6 @@ const withToken = setContext(async (operation, { headers }) => {
   let token = store.getState().currentUser.token
   if (!token) {
     token = await SecureStore.getItemAsync('token')
-    console.log({ token })
     token && store.dispatch(actions.setCurrentUser(token))
   }
   return {

@@ -73,14 +73,16 @@ const RootNavigator = StackNavigator(
     Loading: { screen: Loading }
   },
   {
-    initialRouteName: 'Verify',
+    initialRouteName: 'Loading',
     navigationOptions: ({ navigation }) => {
       store.dispatch(
         actions.setNavigation({
           rootNavigation: navigation
         })
       )
-      return {}
+      return {
+        header: null 
+      }
     },
     cardStyle: {
       // https://github.com/react-community/react-navigation/issues/1478
