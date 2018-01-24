@@ -21,7 +21,8 @@ const withToken = setContext(async (operation, { headers }) => {
   let token = store.getState().currentUser.token
   if (!token) {
     token = await SecureStore.getItemAsync('token')
-    store.dispatch(actions.setCurrentUser(token))
+    console.log({ token })
+    token && store.dispatch(actions.setCurrentUser(token))
   }
   return {
     headers: {
@@ -31,9 +32,13 @@ const withToken = setContext(async (operation, { headers }) => {
   }
 })
 
-const resetToken = onError(({ networkError }) => {
-  if (networkError && networkError.statusCode === 401) {
+const resetToken = onError(async ({ networkError }) => {
+  console.log((networkError && networkError.message.includes('401')))
+  if (networkError && networkError.message.includes('401')) {
     // remove cached token on 401 from the server
+     
+    await SecureStore.deleteItemAsync('token')
+    console.log('deleted token!')
     store.dispatch(actions.deleteCurrentUser)
   }
 })

@@ -73,7 +73,7 @@ const RootNavigator = StackNavigator(
     Loading: { screen: Loading }
   },
   {
-    initialRouteName: 'Loading',
+    initialRouteName: 'Verify',
     navigationOptions: ({ navigation }) => {
       store.dispatch(
         actions.setNavigation({
