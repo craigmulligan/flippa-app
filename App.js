@@ -81,7 +81,7 @@ const RootNavigator = StackNavigator(
         })
       )
       return {
-        header: null 
+        header: null
       }
     },
     cardStyle: {

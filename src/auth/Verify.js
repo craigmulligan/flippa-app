@@ -1,16 +1,30 @@
 import React, { Component } from 'react'
 import { SecureStore } from 'expo'
-import { FormLabel, FormInput, Text } from 'react-native-elements'
+import { Text } from 'react-native-elements'
 import { View, StyleSheet, Platform } from 'react-native'
-import constants from '../constants'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
-import CodeInput from 'react-native-confirmation-code-input';
+import CodeInput from 'react-native-confirmation-code-input'
 import { theme } from '../constants'
+import { compose } from 'react-apollo'
 
 const VerifyMutation = gql`
   mutation($phoneNumber: String!, $verificationCode: String!) {
     verifyCode(phoneNumber: $phoneNumber, verificationCode: $verificationCode)
+  }
+`
+
+const UPDATE_CURRENT_USER_MUTATION = gql`
+  mutation($user: User) {
+    updateCurrentUser(user: $user) @client
+  }
+`
+
+const CurrentUserQuery = gql`
+  query currentUser {
+    currentUser @client {
+      phoneNumber
+    }
   }
 `
 
@@ -32,12 +46,11 @@ const styles = StyleSheet.create({
 })
 
 class Verify extends Component {
-  constructor(props) {
+  constructor() {
     super()
     this.state = {
-      phoneNumber: props.navigation.state.params.phoneNumber,
-      verificationCode: '',
-      error: '' 
+      error: false,
+      success: false
     }
   }
 
@@ -46,56 +59,77 @@ class Verify extends Component {
   }
 
   setVerificationCode = async value => {
-    this.setState({ verificationCode: value })
-    if (value.length === constants.verificationCodeLength) {
-      try {
-        const { data } = await this.props.mutate({
-          variables: {
-            phoneNumber: this.state.phoneNumber,
-            verificationCode: value
-          }
-        })
-        await SecureStore.setItemAsync('token', data.verifyCode)
+    try {
+      const { currentUser } = this.props.data
+      const { data } = await this.props.mutate({
+        variables: {
+          phoneNumber: currentUser.phoneNumber,
+          verificationCode: value
+        }
+      })
 
-        this.props.navigation.navigate('App')
-      } catch (err) {
-        this.setState({ error: err })
-        setTimeout(() => {
-          this.setState({ error: null })
-        }, 2000)
-      }
+      this.setState({ success: true })
+      await this.props.updateCurrentUser({
+        variables: {
+          user: {
+            token: data.verifyCode
+          }
+        }
+      })
+
+      this.props.navigation.navigate('App')
+    } catch (err) {
+      console.log(err)
+      this.setState({ error: err })
+      setTimeout(() => {
+        this.setState({ error: null })
+      }, 2000)
     }
+  }
+
+  getColor = () => {
+    if (this.state.success) {
+      return theme.colors.green
+    }
+    if (this.state.error) {
+      return theme.colors.red
+    }
+    return theme.colors.gray
   }
 
   render() {
     return (
       <View style={styles.container}>
         <View>
-          <Text style={styles.headerText} h4>What's your verification code?</Text>
-          {
-           !!this.state.error && 
-              <Text style={styles.errorText}>
-                Oops something went wrong, please try again
-              </Text>
-          }
+          <Text style={styles.headerText} h4>
+            What's your verification code?
+          </Text>
+          {!!this.state.error && (
+            <Text style={styles.errorText}>
+              Oops something went wrong, please try again
+            </Text>
+          )}
         </View>
         <View>
           <CodeInput
             secureTextEntry
-            keyboardType={Platform.OS === 'ios' ? 'number-pad' : 'numeric'} 
+            keyboardType={Platform.OS === 'ios' ? 'number-pad' : 'numeric'}
             codeLength={4}
             space={10}
             size={70}
             activeColor={theme.colors.blueDark}
-            inactiveColor={this.state.error ? theme.colors.red : theme.colors.gray}
-            onFulfill={(code) => this.setVerificationCode(code)}
+            inactiveColor={this.getColor()}
+            onFulfill={code => this.setVerificationCode(code)}
           />
-        </View> 
-        <View>
         </View>
+        <View />
       </View>
     )
   }
 }
 
-export default graphql(VerifyMutation)(Verify)
+export default compose(
+  graphql(CurrentUserQuery),
+  graphql(UPDATE_CURRENT_USER_MUTATION, { name: 'updateCurrentUser' }),
+  graphql(VerifyMutation)
+)(Verify)
