@@ -1,11 +1,14 @@
 import React from 'react'
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, Linking } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import constants from '../constants'
 import { Like, TimeStamp, UserSummary, Image } from './'
 import get from 'lodash/get'
 
+const getMessage = ({ title, id }) => `Hey I'm really interested in your flippa post - ${title}! https://flippa.co.za/posts/${id}`
+
 export default ({ id, title, likes, createdAt, price, files, user }) => {
+  const msg = getMessage({ title, id })
   return (
     <ScrollView>
       <UserSummary {...user} />
@@ -39,6 +42,10 @@ export default ({ id, title, likes, createdAt, price, files, user }) => {
         <Button
           containerViewStyle={{
             marginRight: 0
+          }}
+          onPress={() => {
+            Linking.openURL(
+              `whatsapp://send?phone=${user.phoneNumber}&text=${msg}&uri=https://facebook.com`)
           }}
           backgroundColor={constants.theme.colors.green}
           title="Make an Offer"

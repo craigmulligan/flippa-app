@@ -114,7 +114,7 @@ class Sell extends Component {
           value={this.state.description}
           onChangeText={value => this.setState({ description: value })}
           placeholder={'Description ... '}
-        />
+        Press/>
         <FormLabel>Price</FormLabel>
         <FormInput
           value={this.state.price}
@@ -144,10 +144,9 @@ class Sell extends Component {
                   variables: {
                     filter: {
                       where: {
-                        userId: store.getState().currentUser.id
+                        userId: this.props.currentUser.id
                       }
-                    }
-                  }
+                    } }
                 },
                 'feedQuery'
               ]
