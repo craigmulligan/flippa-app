@@ -7,6 +7,7 @@ import { createUploadLink } from 'apollo-upload-client'
 import store, { actions } from '../redux'
 import constants from '../constants'
 import stateLink, { cache } from './state-link'
+import * as queries from './queries'
 
 const addAuthHeader = token => {
   return token
@@ -22,7 +23,6 @@ const withToken = setContext(async (operation, { headers }) => {
 
   if (!token) {
     token = await SecureStore.getItemAsync('token')
-    console.log({ client })
   }
 
   return {
@@ -36,7 +36,6 @@ const withToken = setContext(async (operation, { headers }) => {
 const resetToken = onError(async ({ networkError }) => {
   if (networkError && networkError.message.includes('401')) {
     // remove cached token on 401 from the server
-
     await SecureStore.deleteItemAsync('token')
     store.dispatch(actions.deleteCurrentUser)
   }
@@ -60,7 +59,8 @@ const client = new ApolloClient({
 })
 
 export const isCurrentUser = id => {
-  return store.getState().currentUser.id === Number(id)
+  const { currentUser } = cache.readQuery({ query: queries.GET_CURRENT_USER })
+  return currentUser.id === Number(id)
 }
 
 export default client

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { SecureStore } from 'expo'
 import { Text } from 'react-native-elements'
 import { View, StyleSheet, Platform } from 'react-native'
 import gql from 'graphql-tag'
@@ -7,6 +6,7 @@ import { graphql } from 'react-apollo'
 import CodeInput from 'react-native-confirmation-code-input'
 import { theme } from '../constants'
 import { compose } from 'react-apollo'
+import * as queries from '../apollo/queries'
 
 const VerifyMutation = gql`
   mutation($phoneNumber: String!, $verificationCode: String!) {
@@ -14,14 +14,8 @@ const VerifyMutation = gql`
   }
 `
 
-const UPDATE_CURRENT_USER_MUTATION = gql`
-  mutation($user: User) {
-    updateCurrentUser(user: $user) @client
-  }
-`
-
-const CurrentUserQuery = gql`
-  query currentUser {
+const GET_CURRENT_USER_PHONE_NUMBER = gql`
+  query phoneNumber {
     currentUser @client {
       phoneNumber
     }
@@ -61,7 +55,7 @@ class Verify extends Component {
   setVerificationCode = async value => {
     try {
       const { currentUser } = this.props.data
-      const { data } = await this.props.mutate({
+      const { data } = await this.props.verify({
         variables: {
           phoneNumber: currentUser.phoneNumber,
           verificationCode: value
@@ -79,7 +73,6 @@ class Verify extends Component {
 
       this.props.navigation.navigate('App')
     } catch (err) {
-      console.log(err)
       this.setState({ error: err })
       setTimeout(() => {
         this.setState({ error: null })
@@ -129,7 +122,7 @@ class Verify extends Component {
 }
 
 export default compose(
-  graphql(CurrentUserQuery),
-  graphql(UPDATE_CURRENT_USER_MUTATION, { name: 'updateCurrentUser' }),
-  graphql(VerifyMutation)
+  graphql(GET_CURRENT_USER_PHONE_NUMBER),
+  graphql(queries.UPDATE_CURRENT_USER, { name: 'updateCurrentUser' }),
+  graphql(VerifyMutation, { name: 'verify' })
 )(Verify)

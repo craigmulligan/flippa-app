@@ -4,6 +4,8 @@ import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
 import { View } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
+import * as queries from '../apollo/queries'
+console.log(queries.LOGOUT)
 
 const updateUserMutation = gql`
   mutation($input: UserInput!) {
@@ -45,6 +47,8 @@ class Profile extends Component {
   }
 
   render() {
+
+    console.log(this.props.logout)
     return (
       <View>
         <FormLabel>Store Name</FormLabel>
@@ -85,8 +89,12 @@ class Profile extends Component {
         <Button
           title="Logout"
           onPress={async () => {
-            await SecureStore.deleteItemAsync('token')
-            this.props.navigation.navigate('Login')
+            try {
+              await this.props.logout() 
+              await this.props.navigation.navigate('Login')
+            } catch (err) {
+              console.log(err)
+            }
           }}
         />
       </View>
@@ -96,5 +104,6 @@ class Profile extends Component {
 
 export default compose(
   graphql(updateUserMutation, { name: 'updateUser' }),
-  graphql(userQuery)
+  graphql(userQuery),
+  graphql(queries.LOGOUT, { name: 'logout' })
 )(Profile)

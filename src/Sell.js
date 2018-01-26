@@ -9,6 +9,7 @@ import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import { theme } from './constants'
 import store from './redux'
+import * as queries from './apollo/queries'
 
 const createPostMutation = gql`
   mutation($input: PostInput!) {
@@ -171,5 +172,6 @@ const styles = StyleSheet.create({
 
 export default compose(
   graphql(uploadImageMutation, { name: 'uploadImage' }),
+  graphql(queries.GET_CURRENT_USER, { name: 'currentUser' }),
   graphql(createPostMutation, { name: 'createPost' })
 )(Sell)

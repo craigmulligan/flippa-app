@@ -5,6 +5,16 @@ import { SecureStore } from 'expo'
 
 export const cache = new InMemoryCache()
 
+const defaults = {
+  CurrentUser: {
+    __typename: 'CurrentUser',
+    phoneNumber: null,
+    token: null,
+    displayName: null,
+    id: null
+  }
+}
+
 const stateLink = withClientState({
   cache,
   resolvers: {
@@ -23,19 +33,17 @@ const stateLink = withClientState({
             ...tokenData
           }
         }
+
         cache.writeData({ data })
         return
-      }
+      },
+      logout: async (_, $, { cache }) => {
+        await SecureStore.deleteItemAsync('token')
+        return
+      },
     },
-    defaults: {
-      currentUser: {
-        __typename: 'CurrentUser',
-        phoneNumber: null,
-        token: null,
-        displayName: null
-      }
-    }
-  }
+   },
+   defaults
 })
 
 export default stateLink
