@@ -5,7 +5,6 @@ import { View } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import * as queries from '../apollo/queries'
-console.log(queries.LOGOUT)
 
 const updateUserMutation = gql`
   mutation($input: UserInput!) {
@@ -32,6 +31,7 @@ class Profile extends Component {
     this.state = {
       displayName: '',
       phoneNumber: '',
+      error: null,
       edit: false
     }
   }
@@ -47,8 +47,6 @@ class Profile extends Component {
   }
 
   render() {
-
-    console.log(this.props.logout)
     return (
       <View>
         <FormLabel>Store Name</FormLabel>
@@ -64,7 +62,8 @@ class Profile extends Component {
           placeholder={'PhoneNumber... '}
         />
         <Button
-          icon={{ name: 'code' }}
+          icon={{ name: 'save' }}
+          title={'Save'}
           backgroundColor="#03A9F4"
           buttonStyle={{
             borderRadius: 0,
@@ -93,7 +92,7 @@ class Profile extends Component {
               await this.props.logout() 
               await this.props.navigation.navigate('Login')
             } catch (err) {
-              console.log(err)
+              this.setState({ error: err })
             }
           }}
         />
