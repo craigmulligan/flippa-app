@@ -48,7 +48,9 @@ export const userQuery = gql`
       id
       displayName
       phoneNumber
-      avatar
+      file {
+        url
+      }
       followers {
         id
       }

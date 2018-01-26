@@ -5,6 +5,7 @@ import { View } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import * as queries from '../apollo/queries'
+import Upload from '../components/Upload'
 
 const updateUserMutation = gql`
   mutation($input: UserInput!) {
@@ -20,7 +21,9 @@ const userQuery = gql`
       id
       displayName
       phoneNumber
-      avatar
+      file {
+        url
+      }
     }
   }
 `
@@ -31,6 +34,7 @@ class Profile extends Component {
     this.state = {
       displayName: '',
       phoneNumber: '',
+      fileId: null, 
       error: null,
       edit: false
     }
@@ -61,6 +65,13 @@ class Profile extends Component {
           onChangeText={value => this.setState({ phoneNumber: value })}
           placeholder={'PhoneNumber... '}
         />
+      <Upload uploadHandler={(err, upload) => {
+        if (err) {
+          this.setState({ error: err })
+        } else {
+          this.setState({ fileId: upload.id }) 
+        } 
+      }} />
         <Button
           icon={{ name: 'save' }}
           title={'Save'}
@@ -73,11 +84,12 @@ class Profile extends Component {
           }}
           displayName="Post"
           onPress={async () => {
-            const { displayName } = this.state
+            const { displayName, fileId } = this.state
             await this.props.updateUser({
               variables: {
                 input: {
-                  displayName
+                  displayName,
+                  fileId
                 }
               },
               refetchQueries: ['User']

@@ -3,8 +3,10 @@ import { Avatar } from 'react-native-elements'
 import { View, Text, TouchableOpacity } from 'react-native'
 // we don't use connect because that causes side effects we rendering App.js
 import store from '../../src/redux'
+import get from 'lodash/get'
 
-export default ({ phoneNumber, displayName, id }) => {
+export default ({ phoneNumber, displayName, file, id }) => {
+  console.log(get(file, 'url'))
   return (
     <TouchableOpacity
       onPress={() => {
@@ -23,6 +25,7 @@ export default ({ phoneNumber, displayName, id }) => {
         <Avatar
           small
           rounded
+          source={{ uri: get(file, 'url') }}
           title={displayName && displayName.slice(0, 2).toUpperCase()}
           activeOpacity={0.7}
         />
