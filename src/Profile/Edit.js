@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { SecureStore } from 'expo'
 import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
 import { View } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import * as queries from '../apollo/queries'
-import Upload from '../components/Upload'
+import { Upload } from '../components'
 
 const updateUserMutation = gql`
   mutation($input: UserInput!) {
