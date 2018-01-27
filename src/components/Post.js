@@ -9,12 +9,11 @@ const getMessage = ({ title, id }) => `Hey I'm really interested in your flippa 
 
 export default ({ id, title, likes, createdAt, price, files, user }) => {
   const msg = getMessage({ title, id })
+  console.log(title, get(files, '[0].url'))
   return (
     <ScrollView>
       <UserSummary {...user} />
-      <View style={{ flexDirection: 'row' }}>
-        <Image source={{ uri: files && get(files, '[0].url') }} />
-      </View>
+      <Image source={{ uri: files && get(files, '[0].url') }} />
       <View
         style={{
           alignItems: 'center',
@@ -29,7 +28,6 @@ export default ({ id, title, likes, createdAt, price, files, user }) => {
         </View>
         <TimeStamp createdAt={createdAt} />
       </View>
-
       <View
         style={{
           margin: 10,
