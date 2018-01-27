@@ -7,7 +7,7 @@ import get from 'lodash/get'
 import { graphql } from 'react-apollo' 
 import gql from 'graphql-tag'
 
-const User_QUERY = gql`
+const USER_QUERY = gql`
   query UserQuery($id: ID) { 
     User(id: $id) {
       phoneNumber
@@ -64,6 +64,6 @@ const UserSummary = ({ data, id }) => {
   )
 }
 
-export default graphql(User_QUERY, {
+export default graphql(USER_QUERY, {
   options: ({ id }) => ({ variables: { id } })
 })(UserSummary)

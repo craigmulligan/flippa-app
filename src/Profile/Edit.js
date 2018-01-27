@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import * as queries from '../apollo/queries'
 import { Upload } from '../components'
+import get from 'lodash/get'
 
 const updateUserMutation = gql`
   mutation($input: UserInput!) {
@@ -64,7 +65,9 @@ class Profile extends Component {
           onChangeText={value => this.setState({ phoneNumber: value })}
           placeholder={'PhoneNumber... '}
         />
-      <Upload uploadHandler={(err, upload) => {
+      <Upload 
+        source={{ uri:  get(this.props, 'data.User.file.url') }}
+        uploadHandler={(err, upload) => {
         if (err) {
           this.setState({ error: err })
         } else {

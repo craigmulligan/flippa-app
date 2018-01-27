@@ -27,8 +27,7 @@ class Upload extends Component {
   _pickImage = async () => {
     try {
       let pickerResult = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true,
-        aspect: [4, 3]
+        allowsEditing: true
       })
 
       this._handleImagePicked(pickerResult)
@@ -63,13 +62,24 @@ class Upload extends Component {
     }
   }
 
+  _getImage = (stateImage) => {
+    if (stateImage) {
+      return {
+        uri: this.state.image 
+      } 
+    } 
+    return this.props.source
+  }
+
   render() {
     return (
       <View>
-        {!this.state.image && <ImageForm onPress={this._pickImage} />}
+        {!this._getImage(this.state.image) && <ImageForm onPress={this._pickImage} />}
         <Image
+          editable={true}
+          editHandler={this._pickImage}
           loading={this.state.uploading}
-          source={{ uri: this.state.image }}
+          source={this._getImage(this.state.image)}
         />
       </View>
     )
