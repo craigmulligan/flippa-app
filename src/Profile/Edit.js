@@ -46,8 +46,8 @@ class Profile extends Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    this.setState(newProps.data.User)
+  componentwillreceiveprops(newprops) {
+    this.setstate(newprops.data.user)
   }
 
   render() {

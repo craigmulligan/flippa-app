@@ -86,17 +86,10 @@ class Sell extends Component {
               variables: {
                 input: rest 
               },
-              refetchqueries: [
-                {
-                  query: 'sellingQuery',
-                  variables: {
-                    filter: {
-                      where: {
-                        userId: this.props.currentUser.id
-                      }
-                    } }
-                },
-                'feedQuery'
+              refetchQueries: [
+                'sellingQuery',
+                'feedQuery',
+                'List'
               ]
             })
             this.props.navigation.navigate('Feed')
