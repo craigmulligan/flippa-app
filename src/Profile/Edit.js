@@ -36,6 +36,9 @@ class Profile extends Component {
       phoneNumber: '',
       fileId: null, 
       error: null,
+      loadingSave: false,
+      loadingLogout: false,
+      uploading: false,
       edit: false
     }
   }
@@ -46,8 +49,8 @@ class Profile extends Component {
     }
   }
 
-  componentwillreceiveprops(newprops) {
-    this.setstate(newprops.data.user)
+  componentWillReceiveProps(newProps) {
+    this.setState(newProps.data.User)
   }
 
   render() {
@@ -67,6 +70,9 @@ class Profile extends Component {
         />
       <Upload 
         source={{ uri:  get(this.props, 'data.User.file.url') }}
+        isUploading={(isUploading) => {
+          this.setState({ uploading: isUploading })
+        }}
         uploadHandler={(err, upload) => {
         if (err) {
           this.setState({ error: err })
@@ -84,23 +90,32 @@ class Profile extends Component {
             marginRight: 0,
             marginBottom: 0
           }}
+          loading={this.state.loadingSave}
           displayName="Post"
+          disabled={this.state.uploading}
           onPress={async () => {
-            const { displayName, fileId } = this.state
-            await this.props.updateUser({
-              variables: {
-                input: {
-                  displayName,
-                  fileId
-                }
-              },
-              refetchQueries: ['User']
-            })
-            this.props.navigation.navigate('Profile')
+            try {
+              this.setState({ loadingSave: true })
+              const { displayName, fileId } = this.state
+              await this.props.updateUser({
+                variables: {
+                  input: {
+                    displayName,
+                    fileId
+                  }
+                },
+                refetchQueries: ['User']
+              })
+              this.setState({ loadingSave: false })
+              this.props.navigation.navigate('Profile')
+            } catch (error) {
+              this.setState({ error, loadingSave: false })
+            }
           }}
         />
         <Button
           title="Logout"
+          loading={this.state.loadingLogout}
           onPress={async () => {
             try {
               await this.props.logout() 

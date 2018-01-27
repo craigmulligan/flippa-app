@@ -16,16 +16,20 @@ const createPostMutation = gql`
   }
 `
 
+const defaults = {
+  title: '',
+  description: '',
+  price: '',
+  error: null,
+  loading: false,
+  uploading: false,
+  files: []
+}
+
 class Sell extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      title: '',
-      description: '',
-      price: '',
-      error: null,
-      files: [],
-    }
+    this.state = defaults 
   }
   static navigationOptions = {
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
@@ -45,13 +49,14 @@ class Sell extends Component {
         contentContainerStyle={styles.contentContainer}
         style={styles.container}
       >
-      <Upload uploadHandler={(error, upload) => {
-        if (error) {
-          this.setState({ error })
-        } else {
-          this.setState({ files: [ ...this.state.files, upload.id ] })
-        }
-      }} /> 
+        <Upload 
+          uploadHandler={(error, upload) => {
+          if (error) {
+            this.setState({ error })
+          } else {
+            this.setState({ files: [ ...this.state.files, upload.id ] })
+          }
+        }} /> 
         <FormLabel>Title</FormLabel>
         <FormInput
           value={this.state.title}
@@ -73,6 +78,8 @@ class Sell extends Component {
         <Button
           icon={{ name: 'code' }}
           backgroundColor="#03A9F4"
+          disabled={this.state.uploading}
+          loading={this.state.loading}
           buttonStyle={{
             borderRadius: 0,
             marginLeft: 0,
@@ -80,19 +87,25 @@ class Sell extends Component {
           }}
           title="Post"
           onPress={async () => {
-            // eslint-ignore-next-line no-unused-vars
-            const { error, ...rest } = this.state
-            await this.props.createPost({
-              variables: {
-                input: rest 
-              },
-              refetchQueries: [
-                'sellingQuery',
-                'feedQuery',
-                'List'
-              ]
-            })
-            this.props.navigation.navigate('Feed')
+            try {
+              this.setState({ loading: true })
+              // eslint-ignore-next-line no-unused-vars
+              const { error, loading, uploading, ...rest } = this.state
+              await this.props.createPost({
+                variables: {
+                  input: rest 
+                },
+                refetchQueries: [
+                  'sellingQuery',
+                  'feedQuery',
+                  'List'
+                ]
+              })
+              this.setState(defaults)
+              this.props.navigation.navigate('Explore')
+            } catch (error) {
+              this.setState({ error, loading: false }) 
+            }
           }}
         />
       </ScrollView>

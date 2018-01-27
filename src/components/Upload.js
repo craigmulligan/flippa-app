@@ -61,6 +61,14 @@ class Upload extends Component {
       this.setState({ uploading: false })
     }
   }
+  
+  componentWillUpdate = (nextProps, nextState) => {
+    if (this.state.uploading !== nextState.uploading) {
+      if (typeof this.props.isUploading == 'function') {
+        this.props.isUploading(nextState.uploading)
+      }
+    }
+  }
 
   _getImage = (stateImage) => {
     if (stateImage) {
