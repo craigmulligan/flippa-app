@@ -33,7 +33,7 @@ const PostList = ({ data, grid, navigation }) => {
         }
 
         if (!previousResult) {
-          return fetchMoreResult 
+          return fetchMoreResult
         }
 
         return Object.assign({}, previousResult || {}, {

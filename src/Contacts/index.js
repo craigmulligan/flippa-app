@@ -16,22 +16,22 @@ const GET_USER = gql`
   }
 `
 
-const FollowOrInvite = ({ phoneNumber, data: { User, loading, error }}) => {
+const FollowOrInvite = ({ phoneNumber, data: { User, loading, error } }) => {
   if (loading) {
     return <Button loading />
-  } 
+  }
   if (get(User, 'id')) {
     return <Follow id={User.id} />
-  } 
+  }
   return <Invite phoneNumber={phoneNumber} />
 }
 
-const FollowOrInviteWithData = graphql(GET_USER, { 
+const FollowOrInviteWithData = graphql(GET_USER, {
   options: ({ phoneNumber }) => ({
     variables: {
       phoneNumber: phoneNumber || ''
     }
-  }),  
+  })
 })(FollowOrInvite)
 
 export default class Contacts extends Component {
@@ -43,15 +43,17 @@ export default class Contacts extends Component {
       offset: 0,
       hasNextPage: true
     }
-  } 
+  }
 
   _getContactsAsync = async () => {
     this.setState({ loading: true })
     // Ask for permission to query contacts.
-    const permission = await Expo.Permissions.askAsync(Expo.Permissions.CONTACTS);
+    const permission = await Expo.Permissions.askAsync(
+      Expo.Permissions.CONTACTS
+    )
     if (permission.status !== 'granted') {
       // Permission was denied...
-      return;
+      return
     }
 
     const { data, hasNextPage } = await Expo.Contacts.getContactsAsync({
@@ -62,17 +64,14 @@ export default class Contacts extends Component {
         Expo.Contacts.THUMBNAIL
       ],
       pageSize: 10,
-      pageOffset: this.state.offset,
-    });
+      pageOffset: this.state.offset
+    })
 
-    this.setState((prevState) => {
-      return { 
-        loading: false, 
+    this.setState(prevState => {
+      return {
+        loading: false,
         offset: ++prevState.offset,
-        contacts: uniqBy([
-          ...prevState.contacts,
-          ...data
-        ], 'name'),
+        contacts: uniqBy([...prevState.contacts, ...data], 'name'),
         hasNextPage
       }
     })
@@ -91,26 +90,21 @@ export default class Contacts extends Component {
     const pn = get(item, 'phoneNumbers[0].number')
 
     return (
-      <ListItem 
+      <ListItem
         roundAvatar
-        avatar={
-          item.imageAvailable && item.thumbnail.uri
-        }
-        title={get(item, 'name')}  
-        subtitle={pn} 
+        avatar={item.imageAvailable && item.thumbnail.uri}
+        title={get(item, 'name')}
+        subtitle={pn}
         rightIcon={<FollowOrInviteWithData phoneNumber={pn} />}
-       >
-      </ListItem>
+      />
     )
   }
 
   _renderFooter = () => {
     if (!this.state.hasNextPage && !this.state.loading) {
-      return (
-        <Empty />
-      )
+      return <Empty />
     }
-    
+
     if (!this.state.loading) return null
 
     return (
@@ -123,13 +117,12 @@ export default class Contacts extends Component {
         <ActivityIndicator animating size="large" />
       </View>
     )
-
   }
 
   render() {
     const { contacts, loading } = this.state
     if (contacts.length > 0) {
-      return(
+      return (
         <FlatList
           extraData={this.state}
           data={contacts}
@@ -141,8 +134,6 @@ export default class Contacts extends Component {
         />
       )
     }
-    return (
-      <Empty />
-    )
+    return <Empty />
   }
 }

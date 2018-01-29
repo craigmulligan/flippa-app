@@ -4,11 +4,11 @@ import { View, Text, TouchableOpacity } from 'react-native'
 // we don't use connect because that causes side effects we rendering App.js
 import store from '../../src/redux'
 import get from 'lodash/get'
-import { graphql } from 'react-apollo' 
+import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const USER_QUERY = gql`
-  query UserQuery($id: ID) { 
+  query UserQuery($id: ID) {
     User(id: $id) {
       phoneNumber
       displayName

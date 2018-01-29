@@ -34,7 +34,7 @@ class Profile extends Component {
     this.state = {
       displayName: '',
       phoneNumber: '',
-      fileId: null, 
+      fileId: null,
       error: null,
       loadingSave: false,
       loadingLogout: false,
@@ -68,18 +68,19 @@ class Profile extends Component {
           onChangeText={value => this.setState({ phoneNumber: value })}
           placeholder={'PhoneNumber... '}
         />
-      <Upload 
-        source={{ uri:  get(this.props, 'data.User.file.url') }}
-        isUploading={(isUploading) => {
-          this.setState({ uploading: isUploading })
-        }}
-        uploadHandler={(err, upload) => {
-        if (err) {
-          this.setState({ error: err })
-        } else {
-          this.setState({ fileId: upload.id }) 
-        } 
-      }} />
+        <Upload
+          source={{ uri: get(this.props, 'data.User.file.url') }}
+          isUploading={isUploading => {
+            this.setState({ uploading: isUploading })
+          }}
+          uploadHandler={(err, upload) => {
+            if (err) {
+              this.setState({ error: err })
+            } else {
+              this.setState({ fileId: upload.id })
+            }
+          }}
+        />
         <Button
           icon={{ name: 'save' }}
           title={'Save'}
@@ -118,7 +119,7 @@ class Profile extends Component {
           loading={this.state.loadingLogout}
           onPress={async () => {
             try {
-              await this.props.logout() 
+              await this.props.logout()
               await this.props.navigation.navigate('Login')
             } catch (err) {
               this.setState({ error: err })

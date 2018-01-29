@@ -11,8 +11,8 @@ import * as queries from './queries'
 const addAuthHeader = token => {
   return token
     ? {
-      Authorization: `Bearer ${token}`
-    }
+        Authorization: `Bearer ${token}`
+      }
     : undefined
 }
 
@@ -32,7 +32,7 @@ const withToken = setContext(async (operation, { headers }) => {
       }
     }
   } catch (err) {
-    return 
+    return
     console.log(err)
   }
 })
@@ -61,10 +61,10 @@ const client = new ApolloClient({
   ]),
   defaultOptions: {
     watchquery: {
-      // errorpolicy: 'ignore' 
+      // errorpolicy: 'ignore'
     },
     query: {
-      // errorPolicy: 'ignore' 
+      // errorPolicy: 'ignore'
     }
   }
 })

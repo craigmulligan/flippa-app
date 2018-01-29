@@ -60,7 +60,7 @@ const RootNavigator = StackNavigator(
     Verify: { screen: Verify },
     App: { screen: App },
     Contacts: {
-      screen: Contacts,
+      screen: Contacts
     },
     Post: {
       screen: Post,

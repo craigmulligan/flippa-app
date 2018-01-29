@@ -11,7 +11,7 @@ const defaults = {
     phoneNumber: null,
     token: null,
     displayName: null,
-    __id: null 
+    __id: null
   }
 }
 
@@ -39,21 +39,21 @@ const stateLink = withClientState({
             ...tokenData,
             // we only want a single current user so we save the actual id as ._id
             id: 1
-          },
+          }
         }
 
         cache.writeData({ data })
         return
+      },
+      logout: () => {
+        return SecureStore.deleteItemAsync('token')
+      }
     },
-    logout: () => {
-      return SecureStore.deleteItemAsync('token')
-    },
+    CurrentUser: {
+      id: user => user._id
+    }
   },
-  CurrentUser: {
-    id: (user) => (user._id)
-  }
- },
- defaults
+  defaults
 })
 
 export default stateLink

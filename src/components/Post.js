@@ -5,7 +5,8 @@ import constants from '../constants'
 import { Like, TimeStamp, UserSummary, Image } from './'
 import get from 'lodash/get'
 
-const getMessage = ({ title, id }) => `Hey I'm really interested in your flippa post - ${title}! https://flippa.co.za/posts/${id}`
+const getMessage = ({ title, id }) =>
+  `Hey I'm really interested in your flippa post - ${title}! https://flippa.co.za/posts/${id}`
 
 export default ({ id, title, likes, createdAt, price, files, user }) => {
   const msg = getMessage({ title, id })
@@ -42,7 +43,10 @@ export default ({ id, title, likes, createdAt, price, files, user }) => {
           }}
           onPress={() => {
             Linking.openURL(
-              `whatsapp://send?phone=${user.phoneNumber}&text=${msg}&uri=https://facebook.com`)
+              `whatsapp://send?phone=${
+                user.phoneNumber
+              }&text=${msg}&uri=https://facebook.com`
+            )
           }}
           backgroundColor={constants.theme.colors.green}
           title="Make an Offer"

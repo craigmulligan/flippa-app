@@ -62,7 +62,7 @@ class Upload extends Component {
       this.setState({ uploading: false })
     }
   }
-  
+
   componentWillUpdate = (nextProps, nextState) => {
     if (this.state.uploading !== nextState.uploading) {
       if (typeof this.props.isUploading == 'function') {
@@ -71,19 +71,21 @@ class Upload extends Component {
     }
   }
 
-  _getImage = (stateImage) => {
+  _getImage = stateImage => {
     if (stateImage) {
       return {
-        uri: this.state.image 
-      } 
-    } 
+        uri: this.state.image
+      }
+    }
     return this.props.source
   }
 
   render() {
     return (
       <View>
-        {!get(this._getImage(this.state.image), 'uri') && <ImageForm onPress={this._pickImage} />}
+        {!get(this._getImage(this.state.image), 'uri') && (
+          <ImageForm onPress={this._pickImage} />
+        )}
         <Image
           editable={true}
           editHandler={this._pickImage}
@@ -95,6 +97,6 @@ class Upload extends Component {
   }
 }
 
-export default compose(
-  graphql(uploadImageMutation, { name: 'uploadImage' }),
-)(Upload)
+export default compose(graphql(uploadImageMutation, { name: 'uploadImage' }))(
+  Upload
+)

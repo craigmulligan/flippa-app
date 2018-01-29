@@ -10,11 +10,13 @@ export default ({ phoneNumber }) => {
         buttonStyle={{ backgroundColor: constants.theme.colors.blue }}
         onPress={() => {
           Linking.openURL(
-              `whatsapp://send?phone=${phoneNumber}&text=${constants.INVITE_MESSAGE}&uri=http://flippa.co.za`)
-          }}
+            `whatsapp://send?phone=${phoneNumber}&text=${
+              constants.INVITE_MESSAGE
+            }&uri=http://flippa.co.za`
+          )
+        }}
         title={'Invite'}
       />
     </View>
   )
 }
-

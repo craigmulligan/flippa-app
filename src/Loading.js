@@ -44,4 +44,6 @@ class App extends React.Component {
   }
 }
 
-export default graphql(queries.UPDATE_CURRENT_USER, { name: 'updateCurrentUser' })(App)
+export default graphql(queries.UPDATE_CURRENT_USER, {
+  name: 'updateCurrentUser'
+})(App)

@@ -4,7 +4,7 @@ export const GET_CURRENT_USER = gql`
   query currentUser {
     currentUser @client {
       phoneNumber
-      id 
+      id
       displayName
       createdAt
     }

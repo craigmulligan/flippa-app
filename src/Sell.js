@@ -29,7 +29,7 @@ const defaults = {
 class Sell extends Component {
   constructor(props) {
     super(props)
-    this.state = defaults 
+    this.state = defaults
   }
   static navigationOptions = {
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
@@ -49,14 +49,15 @@ class Sell extends Component {
         contentContainerStyle={styles.contentContainer}
         style={styles.container}
       >
-        <Upload 
+        <Upload
           uploadHandler={(error, upload) => {
-          if (error) {
-            this.setState({ error })
-          } else {
-            this.setState({ files: [ ...this.state.files, upload.id ] })
-          }
-        }} /> 
+            if (error) {
+              this.setState({ error })
+            } else {
+              this.setState({ files: [...this.state.files, upload.id] })
+            }
+          }}
+        />
         <FormLabel>Title</FormLabel>
         <FormInput
           value={this.state.title}
@@ -68,7 +69,8 @@ class Sell extends Component {
           value={this.state.description}
           onChangeText={value => this.setState({ description: value })}
           placeholder={'Description ... '}
-        Press/>
+          Press
+        />
         <FormLabel>Price</FormLabel>
         <FormInput
           value={this.state.price}
@@ -93,18 +95,14 @@ class Sell extends Component {
               const { error, loading, uploading, ...rest } = this.state
               await this.props.createPost({
                 variables: {
-                  input: rest 
+                  input: rest
                 },
-                refetchQueries: [
-                  'sellingQuery',
-                  'feedQuery',
-                  'List'
-                ]
+                refetchQueries: ['sellingQuery', 'feedQuery', 'List']
               })
               this.setState(defaults)
               this.props.navigation.navigate('Explore')
             } catch (error) {
-              this.setState({ error, loading: false }) 
+              this.setState({ error, loading: false })
             }
           }}
         />
