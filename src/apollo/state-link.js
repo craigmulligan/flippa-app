@@ -11,7 +11,7 @@ const defaults = {
     phoneNumber: null,
     token: null,
     displayName: null,
-    id: null
+    __id: null 
   }
 }
 
@@ -21,29 +21,39 @@ const stateLink = withClientState({
     Mutation: {
       updateCurrentUser: async (_, { user }, { cache }) => {
         let tokenData = {}
+
         if (user.token) {
           tokenData = decode(user.token)
+          tokenData._id = tokenData.id
           await SecureStore.setItemAsync('token', user.token)
+        }
+
+        if (user.id) {
+          user._id = user.id
         }
 
         const data = {
           currentUser: {
             __typename: 'CurrentUser',
             ...user,
-            ...tokenData
-          }
+            ...tokenData,
+            // we only want a single current user so we save the actual id as ._id
+            id: 1
+          },
         }
 
         cache.writeData({ data })
         return
-      },
-      logout: async (_, $, { cache }) => {
-        await SecureStore.deleteItemAsync('token')
-        return
-      },
     },
-   },
-   defaults
+    logout: () => {
+      return SecureStore.deleteItemAsync('token')
+    },
+  },
+  CurrentUser: {
+    id: (user) => (user._id)
+  }
+ },
+ defaults
 })
 
 export default stateLink

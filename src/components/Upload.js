@@ -6,6 +6,7 @@ import { Image, ImageForm } from './'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import { View } from 'react-native'
+import get from 'lodash/get'
 
 const uploadImageMutation = gql`
   mutation($file: Upload!) {
@@ -82,7 +83,7 @@ class Upload extends Component {
   render() {
     return (
       <View>
-        {!this._getImage(this.state.image) && <ImageForm onPress={this._pickImage} />}
+        {!get(this._getImage(this.state.image), 'uri') && <ImageForm onPress={this._pickImage} />}
         <Image
           editable={true}
           editHandler={this._pickImage}

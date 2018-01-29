@@ -15,7 +15,7 @@ class App extends React.Component {
   _checkAuth = async () => {
     const token = await SecureStore.getItemAsync('token')
     if (token) {
-      await this.props.mutate({
+      await this.props.updateCurrentUser({
         variables: {
           user: {
             token
@@ -44,4 +44,4 @@ class App extends React.Component {
   }
 }
 
-export default graphql(queries.UPDATE_CURRENT_USER)(App)
+export default graphql(queries.UPDATE_CURRENT_USER, { name: 'updateCurrentUser' })(App)

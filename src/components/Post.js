@@ -9,7 +9,6 @@ const getMessage = ({ title, id }) => `Hey I'm really interested in your flippa 
 
 export default ({ id, title, likes, createdAt, price, files, user }) => {
   const msg = getMessage({ title, id })
-  console.log(title, get(files, '[0].url'))
   return (
     <ScrollView>
       <UserSummary {...user} />

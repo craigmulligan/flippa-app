@@ -8,7 +8,7 @@ import { theme } from '../constants'
 import { compose } from 'react-apollo'
 import * as queries from '../apollo/queries'
 
-const VerifyMutation = gql`
+const VERIFY_MUTATION = gql`
   mutation($phoneNumber: String!, $verificationCode: String!) {
     verifyCode(phoneNumber: $phoneNumber, verificationCode: $verificationCode)
   }
@@ -124,5 +124,5 @@ class Verify extends Component {
 export default compose(
   graphql(GET_CURRENT_USER_PHONE_NUMBER),
   graphql(queries.UPDATE_CURRENT_USER, { name: 'updateCurrentUser' }),
-  graphql(VerifyMutation, { name: 'verify' })
+  graphql(VERIFY_MUTATION, { name: 'verify' })
 )(Verify)

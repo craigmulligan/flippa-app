@@ -7,6 +7,7 @@ import { graphql } from 'react-apollo'
 import CountryPicker from 'react-native-country-picker-modal'
 import { theme } from '../constants'
 import { compose } from 'react-apollo'
+import * as queries from '../apollo/queries'
 
 const { width } = Dimensions.get('window')
 const styles = StyleSheet.create({
@@ -41,16 +42,12 @@ const styles = StyleSheet.create({
   }
 })
 
-const LoginMutation = gql`
+const LOGIN_MUTATION = gql`
   mutation($phoneNumber: String!) {
     login(phoneNumber: $phoneNumber)
   }
 `
-const UpdateCurrentUserMutation = gql`
-  mutation($user: User) {
-    updateCurrentUser(user: $user) @client
-  }
-`
+
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -88,6 +85,7 @@ class Login extends Component {
 
         this.props.navigation.navigate('Verify')
       } catch (err) {
+        console.log(err)
         this.setState({ error: err })
         setTimeout(() => this.setState({ error: null }), 2000)
       }
@@ -141,6 +139,6 @@ class Login extends Component {
 }
 
 export default compose(
-  graphql(LoginMutation, { name: 'login' }),
-  graphql(UpdateCurrentUserMutation, { name: 'updateCurrentUser' })
+  graphql(LOGIN_MUTATION, { name: 'login' }),
+  graphql(queries.UPDATE_CURRENT_USER, { name: 'updateCurrentUser' })
 )(Login)
