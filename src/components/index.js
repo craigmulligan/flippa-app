@@ -9,6 +9,7 @@ import Like from './Like'
 import Empty from './Empty'
 import ImageForm from './ImageForm'
 import Upload from './Upload'
+import Invite from './Invite'
 
 export {
   Image,
@@ -21,5 +22,6 @@ export {
   Follow,
   List,
   TimeStamp,
-  Upload
+  Upload,
+  Invite
 }

@@ -32,7 +32,11 @@ const PostList = ({ data, grid, navigation }) => {
           return previousResult
         }
 
-        return Object.assign({}, previousResult, {
+        if (!previousResult) {
+          return fetchMoreResult 
+        }
+
+        return Object.assign({}, previousResult || {}, {
           Posts: [...previousResult.Posts, ...fetchMoreResult.Posts]
         })
       }

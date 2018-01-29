@@ -37,42 +37,34 @@ const checkFollowStatus = (following, id) => {
 const Follow = ({ id, loading, followUser, data: { Whoami } }) => {
   const isFollowing = checkFollowStatus(get(Whoami, 'following'), id)
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center'
+    <Button
+      buttonStyle={{
+        backgroundColor: isFollowing
+          ? constants.theme.colors.gray
+          : constants.theme.colors.green
       }}
-    >
-      <Button
-        buttonStyle={{
-          backgroundColor: isFollowing
-            ? constants.theme.colors.gray
-            : constants.theme.colors.green
-        }}
-        loading={loading}
-        onPress={async () => {
-          await followUser({
-            variables: {
-              id: id
+      loading={loading}
+      onPress={async () => {
+        await followUser({
+          variables: {
+            id: id
+          },
+          refetchQueries: [
+            {
+              query: WhoamiQuery
             },
-            refetchQueries: [
-              {
-                query: WhoamiQuery
-              },
-              {
-                query: userQuery,
-                variables: {
-                  id: id
-                }
-              },
-              'feedQuery'
-            ]
-          })
-        }}
-        title={isFollowing ? 'UnFollow' : 'Follow'}
-      />
-    </View>
+            {
+              query: userQuery,
+              variables: {
+                id: id
+              }
+            },
+            'feedQuery'
+          ]
+        })
+      }}
+      title={isFollowing ? 'UnFollow' : 'Follow'}
+    />
   )
 }
 

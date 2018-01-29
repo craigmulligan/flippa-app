@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import get from 'lodash/get'
 import { Icon } from 'react-native-elements'
-import { ScrollView, View, TouchableOpacity } from 'react-native'
+import { ScrollView, View, TouchableOpacity, Text } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import { TabNavigator } from 'react-navigation'
@@ -71,8 +71,8 @@ class Profile extends Component {
     tabBarIcon: ({ tintColor, focused }) => {
       return (
         <Icon
-          color={focused ? tintColor : theme.colors.grayDark}
-          name="person"
+        color={focused ? tintColor : theme.colors.grayDark}
+        name="person"
         />
       )
     },
@@ -84,31 +84,45 @@ class Profile extends Component {
     const { User } = this.props.data
     return (
       <ScrollView>
+      <View
+      style={{
+        flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+      }}
+      >
+      <UserSummary {...User} />
+      <TouchableOpacity onPress={() => rootNavigation.navigate('Contacts')}>
+      <Text>
+      Contacts
+      </Text>
+      </TouchableOpacity>
+      <View>
+      {!isCurrentUser(get(User, 'id')) && 
         <View
-          style={{
+        style={{
+          flex: 1,
             flexDirection: 'row',
-            justifyContent: 'space-between',
             alignItems: 'center'
-          }}
+        }}
+        > 
+        <Follow id={get(User, 'id')} /> 
+        </View>}
+      {isCurrentUser(get(User, 'id')) && (
+        <TouchableOpacity
+        onPress={() => {
+          rootNavigation.navigate('EditProfile', {
+            id: get(User, 'id')
+          })
+        }}
         >
-          <UserSummary {...User} />
-          <View>
-            {!isCurrentUser(get(User, 'id')) && <Follow id={get(User, 'id')} />}
-            {isCurrentUser(get(User, 'id')) && (
-              <TouchableOpacity
-                onPress={() => {
-                  rootNavigation.navigate('EditProfile', {
-                    id: get(User, 'id')
-                  })
-                }}
-              >
-                <Icon name={'edit'} />
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
-        <FollowSummary {...User} />
-        <StoreNav screenProps={{ userId: get(User, 'id') }} />
+        <Icon name={'edit'} />
+        </TouchableOpacity>
+      )}
+      </View>
+      </View>
+      <FollowSummary {...User} />
+      <StoreNav screenProps={{ userId: get(User, 'id') }} />
       </ScrollView>
     )
   }

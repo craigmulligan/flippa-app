@@ -26,5 +26,6 @@ export default {
   api: isDev ? getHostMachine() : Constants.manifest.extra.api,
   verificationCodeLength: 4,
   theme,
-  posts_per_page: 10
+  posts_per_page: 10,
+  INVITE_MESSAGE: `Download the flippa app to see my personal store! https://flippa.co.za`
 }

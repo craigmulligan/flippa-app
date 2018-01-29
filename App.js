@@ -8,6 +8,7 @@ import Feed from './src/Feed'
 import Explore from './src/Explore'
 import Sell from './src/Sell'
 import Notifications from './src/Notifications'
+import Contacts from './src/Contacts'
 import client from './src/apollo/client'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import Store from './src/Profile/Store'
@@ -58,6 +59,9 @@ const RootNavigator = StackNavigator(
     Login: { screen: Login },
     Verify: { screen: Verify },
     App: { screen: App },
+    Contacts: {
+      screen: Contacts,
+    },
     Post: {
       screen: Post,
       path: '/Post/:id'
