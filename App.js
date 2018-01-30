@@ -14,6 +14,7 @@ import { StackNavigator, TabNavigator } from 'react-navigation'
 import Store from './src/Profile/Store'
 import Post from './src/Explore/Post'
 import Edit from './src/Profile/Edit'
+import EditPost from './src/Post/Edit'
 import store, { actions } from './src/redux'
 import { Provider } from 'react-redux'
 import { theme } from './src/constants'
@@ -36,7 +37,7 @@ const App = TabNavigator(
     Profile: {
       screen: Store,
       path: '/profile/:id'
-    }
+    },
   },
   {
     tabBarPosition: 'bottom',
@@ -73,6 +74,10 @@ const RootNavigator = StackNavigator(
     EditProfile: {
       screen: Edit,
       path: '/profile/:id/edit'
+    },
+    EditPost: {
+      screen: EditPost,
+      path: '/post/:id/edit'
     },
     Loading: { screen: Loading }
   },

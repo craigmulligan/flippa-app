@@ -4,6 +4,8 @@ import { Text, Button } from 'react-native-elements'
 import constants from '../constants'
 import { Like, TimeStamp, UserSummary, Image } from './'
 import get from 'lodash/get'
+import { getCurrentUser } from '../apollo/client'
+import store from '../redux'
 
 const getMessage = ({ title, id }) =>
   `Hey I'm really interested in your flippa post - ${title}! https://flippa.co.za/posts/${id}`
@@ -37,6 +39,21 @@ export default ({ id, title, likes, createdAt, price, files, user }) => {
         }}
       >
         <Like likes={likes} id={id} />
+    {
+      (getCurrentUser().id == user.id) ? 
+        <Button
+          containerViewStyle={{
+            marginRight: 0
+          }}
+          onPress={() => {
+           store.getState().navigation.rootNavigation.navigate('EditPost', { 
+             id: id
+           }) 
+          }}
+          backgroundColor={constants.theme.colors.green}
+          title="Edit"
+        />
+        : 
         <Button
           containerViewStyle={{
             marginRight: 0
@@ -51,6 +68,7 @@ export default ({ id, title, likes, createdAt, price, files, user }) => {
           backgroundColor={constants.theme.colors.green}
           title="Make an Offer"
         />
+        }
       </View>
     </ScrollView>
   )

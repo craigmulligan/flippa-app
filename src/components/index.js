@@ -10,10 +10,12 @@ import Empty from './Empty'
 import ImageForm from './ImageForm'
 import Upload from './Upload'
 import Invite from './Invite'
+import PostForm from './PostForm'
 
 export {
   Image,
   ImageForm,
+  PostForm,
   Post,
   Like,
   Empty,
