@@ -7,6 +7,8 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import uniqBy from 'lodash/uniqBy'
 import { Empty, Follow, Invite } from '../components'
+import constants from '../constants'
+import store from '../redux'
 
 const GET_USER = gql`
   query userByPhoneNumber($phoneNumber: String) {
@@ -16,12 +18,21 @@ const GET_USER = gql`
   }
 `
 
-const FollowOrInvite = ({ phoneNumber, data: { User, loading, error } }) => {
+const ViewStore = ({ id }) => {
+    return <Button buttonStyle={{ backgroundColor: constants.colors.green }} title={`view store`} onPress={() => store.getState().navigation.rootNavigation.navigate('Profile', { id: id }) } />
+}
+
+const FollowOrInvite = ({ phoneNumber, data: { User, loading } }) => {
   if (loading) {
     return <Button loading />
   }
   if (get(User, 'id')) {
-    return <Follow id={User.id} />
+    return (
+      <View>
+        <Follow id={User.id} />
+        <ViewStore id={User.id} />
+      </View>
+    )
   }
   return <Invite phoneNumber={phoneNumber} />
 }
@@ -33,6 +44,8 @@ const FollowOrInviteWithData = graphql(GET_USER, {
     }
   })
 })(FollowOrInvite)
+
+
 
 export default class Contacts extends Component {
   constructor() {
