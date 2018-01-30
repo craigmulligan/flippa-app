@@ -7,6 +7,7 @@ import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import { View } from 'react-native'
 import get from 'lodash/get'
+import Swiper from 'react-native-swiper'
 
 const uploadImageMutation = gql`
   mutation($file: Upload!) {
@@ -21,6 +22,7 @@ class Upload extends Component {
     super(props)
     this.state = {
       image: null,
+      files: props.files,
       uploading: ''
     }
   }
@@ -71,6 +73,10 @@ class Upload extends Component {
     }
   }
 
+  componentWillReceiveProps = (newProps) => {
+    this.setState({ files: newProps.files })
+  }
+
   _getImage = stateImage => {
     if (stateImage) {
       return {
@@ -80,18 +86,29 @@ class Upload extends Component {
     return this.props.source
   }
 
+
   render() {
     return (
       <View>
         {!get(this._getImage(this.state.image), 'uri') && (
           <ImageForm onPress={this._pickImage} />
         )}
-        <Image
-          editable={true}
-          editHandler={this._pickImage}
-          loading={this.state.uploading}
-          source={this._getImage(this.state.image)}
-        />
+        
+       <Swiper height={300} showsButtons={false}>
+      {
+        this.state.files.map((item, i) => {
+          return(
+            <Image
+              editable={true}
+              key={i}
+              editHandler={this._pickImage}
+              loading={this.state.uploading}
+              source={{ uri: item.url }}
+            />
+          )
+        })
+      }       
+       </Swiper> 
       </View>
     )
   }
@@ -100,3 +117,4 @@ class Upload extends Component {
 export default compose(graphql(uploadImageMutation, { name: 'uploadImage' }))(
   Upload
 )
+

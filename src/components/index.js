@@ -25,5 +25,5 @@ export {
   List,
   TimeStamp,
   Upload,
-  Invite
+  Invite,
 }

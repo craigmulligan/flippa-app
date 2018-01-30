@@ -53,6 +53,7 @@ export default class PostForm extends Component {
         style={styles.container}
       >
         <Upload
+          files={this.state.files}
           source={{ uri: get(this.props, 'data.Post.files[0].url') }}
           uploadHandler={(error, upload) => {
             if (error) {
