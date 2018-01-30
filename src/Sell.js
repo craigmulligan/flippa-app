@@ -11,6 +11,4 @@ const createPostMutation = gql`
   }
 `
 
-export default compose(
-  graphql(createPostMutation)
-)(PostForm)
+export default compose(graphql(createPostMutation))(PostForm)

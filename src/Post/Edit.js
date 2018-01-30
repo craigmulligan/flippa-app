@@ -39,7 +39,7 @@ export default compose(
     options: ({ navigation }) => ({
       variables: {
         id: navigation.state.params.id
-      } 
+      }
     })
   }),
   graphql(DELETE_POST, { name: 'delete' })

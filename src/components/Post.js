@@ -15,7 +15,7 @@ export default ({ id, title, likes, createdAt, price, files, user }) => {
   return (
     <ScrollView>
       <UserSummary {...user} />
-      <Image source={{ uri: files && get(files, '[0].url') }} />
+      <Image source={{ uri: files && get(files, '[0].url') }} files={files} />
       <View
         style={{
           alignItems: 'center',
@@ -39,36 +39,35 @@ export default ({ id, title, likes, createdAt, price, files, user }) => {
         }}
       >
         <Like likes={likes} id={id} />
-    {
-      (getCurrentUser().id == user.id) ? 
-        <Button
-          containerViewStyle={{
-            marginRight: 0
-          }}
-          onPress={() => {
-           store.getState().navigation.rootNavigation.navigate('EditPost', { 
-             id: id
-           }) 
-          }}
-          backgroundColor={constants.theme.colors.green}
-          title="Edit"
-        />
-        : 
-        <Button
-          containerViewStyle={{
-            marginRight: 0
-          }}
-          onPress={() => {
-            Linking.openURL(
-              `whatsapp://send?phone=${
-                user.phoneNumber
-              }&text=${msg}&uri=https://facebook.com`
-            )
-          }}
-          backgroundColor={constants.theme.colors.green}
-          title="Make an Offer"
-        />
-        }
+        {getCurrentUser().id == user.id ? (
+          <Button
+            containerViewStyle={{
+              marginRight: 0
+            }}
+            onPress={() => {
+              store.getState().navigation.rootNavigation.navigate('EditPost', {
+                id: id
+              })
+            }}
+            backgroundColor={constants.theme.colors.green}
+            title="Edit"
+          />
+        ) : (
+          <Button
+            containerViewStyle={{
+              marginRight: 0
+            }}
+            onPress={() => {
+              Linking.openURL(
+                `whatsapp://send?phone=${
+                  user.phoneNumber
+                }&text=${msg}&uri=https://facebook.com`
+              )
+            }}
+            backgroundColor={constants.theme.colors.green}
+            title="Make an Offer"
+          />
+        )}
       </View>
     </ScrollView>
   )

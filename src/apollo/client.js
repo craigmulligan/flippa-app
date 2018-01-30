@@ -38,20 +38,19 @@ const withToken = setContext(async (operation, { headers }) => {
 })
 
 const resetToken = onError(async ({ networkError, graphQLErrors }) => {
-
   if (networkError && networkError.message.includes('401')) {
     // remove cached token on 401 from the server
     return
   }
-  
+
   if (graphQLErrors)
     graphQLErrors.map(({ message, locations, path }) =>
       console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
-    );
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    )
 
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+  if (networkError) console.log(`[Network error]: ${networkError}`)
   return
 })
 

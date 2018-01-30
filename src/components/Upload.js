@@ -7,7 +7,6 @@ import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import { View } from 'react-native'
 import get from 'lodash/get'
-import Swiper from 'react-native-swiper'
 
 const uploadImageMutation = gql`
   mutation($file: Upload!) {
@@ -23,26 +22,25 @@ class Upload extends Component {
     this.state = {
       image: null,
       files: props.files,
-      uploading: ''
+      uploading: []
     }
   }
 
-  _pickImage = async () => {
+  _pickImage = async (item, i) => {
     try {
       let pickerResult = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true
       })
 
-      this._handleImagePicked(pickerResult)
+      this._handleImagePicked(pickerResult, i)
     } catch (err) {
       console.log(err)
     }
   }
 
-  _handleImagePicked = async pickerResult => {
+  _handleImagePicked = async (pickerResult, i)=> {
     try {
-      this.setState({ uploading: true })
-
+      this.setState((prevState => ({ uploading: [...prevState.uploading, i ] })))
       if (!pickerResult.cancelled) {
         this.setState({ image: pickerResult.uri })
         const type = pickerResult.uri.slice(-3)
@@ -57,6 +55,8 @@ class Upload extends Component {
         })
 
         this.props.uploadHandler(null, data.singleUpload)
+
+        this.setState((prevState => ({ uploading: prevState.uploading.filter((g) => g === i) })))
       }
     } catch (e) {
       this.props.uploadHandler(e)
@@ -73,8 +73,8 @@ class Upload extends Component {
     }
   }
 
-  componentWillReceiveProps = (newProps) => {
-    this.setState({ files: newProps.files })
+  componentWillReceiveProps = newProps => {
+    this.setState((prevState) => ({ files: [...prevState.files, newProps.files ] }))
   }
 
   _getImage = stateImage => {
@@ -86,29 +86,20 @@ class Upload extends Component {
     return this.props.source
   }
 
-
   render() {
+    console.log(this.state.files)
     return (
       <View>
         {!get(this._getImage(this.state.image), 'uri') && (
           <ImageForm onPress={this._pickImage} />
         )}
-        
-       <Swiper height={300} showsButtons={false}>
-      {
-        this.state.files.map((item, i) => {
-          return(
-            <Image
-              editable={true}
-              key={i}
-              editHandler={this._pickImage}
-              loading={this.state.uploading}
-              source={{ uri: item.url }}
-            />
-          )
-        })
-      }       
-       </Swiper> 
+        <Image
+          editable={true}
+          editHandler={this._pickImage}
+          loading={this.state.uploading}
+          uploading={this.state.uploading}
+          files={this.state.files}
+        />
       </View>
     )
   }
@@ -117,4 +108,3 @@ class Upload extends Component {
 export default compose(graphql(uploadImageMutation, { name: 'uploadImage' }))(
   Upload
 )
-

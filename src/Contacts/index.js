@@ -19,7 +19,17 @@ const GET_USER = gql`
 `
 
 const ViewStore = ({ id }) => {
-    return <Button buttonStyle={{ backgroundColor: constants.colors.green }} title={`view store`} onPress={() => store.getState().navigation.rootNavigation.navigate('Profile', { id: id }) } />
+  return (
+    <Button
+      buttonStyle={{ backgroundColor: constants.colors.green }}
+      title={`view store`}
+      onPress={() =>
+        store
+          .getState()
+          .navigation.rootNavigation.navigate('Profile', { id: id })
+      }
+    />
+  )
 }
 
 const FollowOrInvite = ({ phoneNumber, data: { User, loading } }) => {
@@ -44,8 +54,6 @@ const FollowOrInviteWithData = graphql(GET_USER, {
     }
   })
 })(FollowOrInvite)
-
-
 
 export default class Contacts extends Component {
   constructor() {

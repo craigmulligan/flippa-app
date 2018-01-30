@@ -37,7 +37,7 @@ const App = TabNavigator(
     Profile: {
       screen: Store,
       path: '/profile/:id'
-    },
+    }
   },
   {
     tabBarPosition: 'bottom',

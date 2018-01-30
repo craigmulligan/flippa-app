@@ -37,7 +37,7 @@ export default class PostForm extends Component {
   }
 
   static defaultProps = {
-    redirect: 'Explore' 
+    redirect: 'Explore'
   }
 
   componentWillReceiveProps(newProps) {
@@ -45,8 +45,7 @@ export default class PostForm extends Component {
   }
 
   render() {
-
-    const { goBack } = this.props.navigation;
+    const { goBack } = this.props.navigation
     return (
       <ScrollView
         contentContainerStyle={styles.contentContainer}
@@ -59,7 +58,7 @@ export default class PostForm extends Component {
             if (error) {
               this.setState({ error })
             } else {
-              this.setState({ files: [ ...this.state.files, upload ] })
+              this.setState({ files: [...this.state.files, upload] })
             }
           }}
         />
@@ -95,69 +94,71 @@ export default class PostForm extends Component {
           title="Post"
           onPress={async () => {
             try {
-              this.setState({ deleting : true })
+              this.setState({ deleting: true })
               // eslint-ignore-next-line no-unused-vars
               const { title, price, id, files } = this.state
               // only way the fileIds
-             
+
               await this.props.mutate({
                 variables: {
-                  input:{
+                  input: {
                     title,
-                    price, 
-                    id, 
-                    files: compact(files.map((f) => get(f, 'id'))),
-                  } 
+                    price,
+                    id,
+                    files: compact(files.map(f => get(f, 'id')))
+                  }
                 },
                 refetchQueries: ['sellingQuery', 'feedQuery', 'List']
               })
               this.setState(defaults)
               goBack()
             } catch (error) {
-              this.setState({ error, deleting : false })
+              this.setState({ error, deleting: false })
             }
           }}
         />
-      {
-        this.props.delete && 
-        <Button
-          icon={{ name: 'remove-circle-outline' }}
-          backgroundColor={ constants.theme.colors.red }
-          disabled={this.state.uploading}
-          loading={this.state.loading}
-          buttonStyle={{
-            borderRadius: 0,
-            marginLeft: 0,
-            marginRight: 0
-          }}
-          title="Delete Post"
-          onPress={async () => {
-            try {
-              this.setState({ loading: true })
-              const { id } = this.state
-             
-              await this.props.delete({
-                variables: {
-                  id: id 
-                },
-                refetchQueries: ['sellingQuery', 'feedQuery', 'List', 'LikedPosts']
-              })
+        {this.props.delete && (
+          <Button
+            icon={{ name: 'remove-circle-outline' }}
+            backgroundColor={constants.theme.colors.red}
+            disabled={this.state.uploading}
+            loading={this.state.loading}
+            buttonStyle={{
+              borderRadius: 0,
+              marginLeft: 0,
+              marginRight: 0
+            }}
+            title="Delete Post"
+            onPress={async () => {
+              try {
+                this.setState({ loading: true })
+                const { id } = this.state
 
-              this.setState(defaults)
-              goBack()
-            } catch (error) {
-              console.log(error)
-              this.setState({ error, loading: false })
-            }
-          }}
-        />
-      }
+                await this.props.delete({
+                  variables: {
+                    id: id
+                  },
+                  refetchQueries: [
+                    'sellingQuery',
+                    'feedQuery',
+                    'List',
+                    'LikedPosts'
+                  ]
+                })
+
+                this.setState(defaults)
+                goBack()
+              } catch (error) {
+                console.log(error)
+                this.setState({ error, loading: false })
+              }
+            }}
+          />
+        )}
       </ScrollView>
     )
   }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -168,4 +169,3 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   }
 })
-
