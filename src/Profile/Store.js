@@ -11,6 +11,7 @@ import { UserSummary, FollowSummary, Follow } from '../components'
 import { isCurrentUser } from '../../src/apollo/client'
 import store from '../redux'
 import { theme } from '../constants'
+import { getCurrentUser } from '../apollo/client'
 
 const StoreNav = TabNavigator(
   {
@@ -46,17 +47,6 @@ export const userQuery = gql`
   query User($id: ID) {
     User(id: $id) {
       id
-      displayName
-      phoneNumber
-      file {
-        url
-      }
-      followers {
-        id
-      }
-      following {
-        id
-      }
     }
   }
 `
@@ -82,6 +72,8 @@ class Profile extends Component {
   render() {
     const { navigation: { rootNavigation } } = store.getState()
     const { User } = this.props.data
+    const id = get(User, 'id')
+    console.log({ id })
     return (
       <ScrollView>
         <View
@@ -91,12 +83,12 @@ class Profile extends Component {
             alignItems: 'center'
           }}
         >
-          <UserSummary {...User} />
+          <UserSummary id={id} />
           <TouchableOpacity onPress={() => rootNavigation.navigate('Contacts')}>
             <Text>Contacts</Text>
           </TouchableOpacity>
           <View>
-            {!isCurrentUser(get(User, 'id')) && (
+            {!isCurrentUser(id) && (
               <View
                 style={{
                   flex: 1,
@@ -104,14 +96,14 @@ class Profile extends Component {
                   alignItems: 'center'
                 }}
               >
-                <Follow id={get(User, 'id')} />
+                <Follow id={id} />
               </View>
             )}
-            {isCurrentUser(get(User, 'id')) && (
+            {isCurrentUser(id) && (
               <TouchableOpacity
                 onPress={() => {
                   rootNavigation.navigate('EditProfile', {
-                    id: get(User, 'id')
+                    id: id
                   })
                 }}
               >
@@ -120,8 +112,8 @@ class Profile extends Component {
             )}
           </View>
         </View>
-        <FollowSummary {...User} />
-        <StoreNav screenProps={{ userId: get(User, 'id') }} />
+        <FollowSummary id={id} />
+        <StoreNav screenProps={{ userId: id }} />
       </ScrollView>
     )
   }
@@ -131,7 +123,11 @@ export default compose(
   graphql(updateUserMutation, { name: 'updateUser' }),
   graphql(userQuery, {
     options: ({ navigation }) => {
-      return { variables: { id: get(navigation, 'state.params.id') } }
+      return {
+        variables: {
+          id: get(navigation, 'state.params.id') || getCurrentUser().id
+        }
+      }
     }
   })
 )(Profile)

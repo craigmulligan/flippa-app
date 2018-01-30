@@ -70,13 +70,13 @@ const client = new ApolloClient({
 })
 
 export const isCurrentUser = id => {
-  try {
-    const { currentUser } = cache.readQuery({ query: queries.GET_CURRENT_USER })
-    return currentUser.id === Number(id)
-  } catch (err) {
-    console.error(err)
-    return
-  }
+  const { currentUser } = cache.readQuery({ query: queries.GET_CURRENT_USER })
+  return currentUser.id === Number(id)
+}
+
+export const getCurrentUser = () => {
+  const { currentUser } = cache.readQuery({ query: queries.GET_CURRENT_USER })
+  return currentUser
 }
 
 export default client

@@ -40,7 +40,7 @@ const App = TabNavigator(
   },
   {
     tabBarPosition: 'bottom',
-    initialRouteName: 'Explore',
+    initialRouteName: 'Profile',
     animationEnabled: true,
     tabBarOptions: {
       activeTintColor: theme.colors.blue,

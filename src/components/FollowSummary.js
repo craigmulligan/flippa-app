@@ -1,8 +1,28 @@
 import React from 'react'
 import { Text } from 'react-native-elements'
 import { View, StyleSheet } from 'react-native'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
+import get from 'lodash/get'
 
-export default ({ followers, following }) => {
+const GET_FOLLOW_SUMMARY = gql`
+  query getFollowInfo($id: ID) {
+    User(id: $id) {
+      id
+      followers {
+        id
+      }
+      following {
+        id
+      }
+    }
+  }
+`
+
+const FollowSummary = ({ id, data: { User } }) => {
+  const followers = get(User, 'following')
+  const following = get(User, 'followers')
+
   return (
     <View style={styles.container}>
       <Text>
@@ -29,3 +49,7 @@ const styles = StyleSheet.create({
     width: '50%'
   }
 })
+
+export default graphql(GET_FOLLOW_SUMMARY, {
+  options: ({ id }) => ({ variables: { id: id } })
+})(FollowSummary)

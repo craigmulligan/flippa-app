@@ -6,6 +6,7 @@ import { graphql, compose } from 'react-apollo'
 import * as queries from '../apollo/queries'
 import { Upload } from '../components'
 import get from 'lodash/get'
+import { getCurrentUser } from '../apollo/client'
 
 const updateUserMutation = gql`
   mutation($input: UserInput!) {
@@ -15,9 +16,9 @@ const updateUserMutation = gql`
   }
 `
 
-const userQuery = gql`
-  {
-    User {
+const USER_QUERY = gql`
+  query userQuery($id: ID) {
+    User(id: $id) {
       id
       displayName
       phoneNumber
@@ -56,7 +57,7 @@ class Profile extends Component {
   render() {
     return (
       <View>
-        <FormLabel>Store Name</FormLabel>
+        <FormLabel>Store Name {this.props.id}</FormLabel>
         <FormInput
           value={this.state.displayName}
           onChangeText={value => this.setState({ displayName: value })}
@@ -83,7 +84,7 @@ class Profile extends Component {
         />
         <Button
           icon={{ name: 'save' }}
-          title={'Save'}
+          title={!this.state.loadingSave && 'Save'}
           backgroundColor="#03A9F4"
           buttonStyle={{
             borderRadius: 0,
@@ -105,7 +106,7 @@ class Profile extends Component {
                     fileId
                   }
                 },
-                refetchQueries: ['User']
+                refetchQueries: ['UserQuery']
               })
               this.setState({ loadingSave: false })
               this.props.navigation.navigate('Profile')
@@ -133,6 +134,12 @@ class Profile extends Component {
 
 export default compose(
   graphql(updateUserMutation, { name: 'updateUser' }),
-  graphql(userQuery),
+  graphql(USER_QUERY, {
+    options: () => ({
+      variables: {
+        id: getCurrentUser().id
+      }
+    })
+  }),
   graphql(queries.LOGOUT, { name: 'logout' })
 )(Profile)
