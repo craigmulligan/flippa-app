@@ -15,7 +15,7 @@ export default ({ id, title, likes, createdAt, price, files, user }) => {
   return (
     <ScrollView>
       <UserSummary {...user} />
-      <Image source={{ uri: files && get(files, '[0].url') }} files={files} />
+      <Image files={files} />
       <View
         style={{
           alignItems: 'center',

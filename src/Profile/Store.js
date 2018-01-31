@@ -39,6 +39,11 @@ const updateUserMutation = gql`
   mutation($input: UserInput!) {
     updateUser(input: $input) {
       displayName
+      file {
+        id 
+        url
+      }
+      id
     }
   }
 `
@@ -73,7 +78,7 @@ class Profile extends Component {
     const { navigation: { rootNavigation } } = store.getState()
     const { User } = this.props.data
     const id = get(User, 'id')
-    console.log({ id })
+
     return (
       <ScrollView>
         <View
@@ -84,10 +89,7 @@ class Profile extends Component {
           }}
         >
           <UserSummary id={id} />
-          <TouchableOpacity onPress={() => rootNavigation.navigate('Contacts')}>
-            <Text>Contacts</Text>
-          </TouchableOpacity>
-          <View>
+                    <View>
             {!isCurrentUser(id) && (
               <View
                 style={{
@@ -112,7 +114,20 @@ class Profile extends Component {
             )}
           </View>
         </View>
-        <FollowSummary id={id} />
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <FollowSummary id={id} />
+          <TouchableOpacity 
+      style={{
+        marginRight: 20
+      }}
+             onPress={() => rootNavigation.navigate('Contacts')}>
+              <Text>Contacts</Text>
+          </TouchableOpacity>
+        </View>
         <StoreNav screenProps={{ userId: id }} />
       </ScrollView>
     )

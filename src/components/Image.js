@@ -4,16 +4,17 @@ import { Icon } from 'react-native-elements'
 import get from 'lodash/get'
 import Swiper from 'react-native-swiper'
 
-export default ({ source, loading, uploading, editable, editHandler, files }) => {
+export default ({ index, source, loading, editable, multi, editHandler, removeHandler, files }) => {
   if (files && files.length > 0) {
-    return (
-      <Swiper height={300} showsButtons={false}>
+    console.log(multi)
+   return (
+      <Swiper height={300} index={index} showsPagination={files.length > 1} showsButtons={false}>
         {files.map((item, i) => {
-          return (
+         return (
             <View
               key={i}
               style={{
-                height: 300
+                height: 300 
               }}
             >
               <ImageBackground
@@ -26,13 +27,29 @@ export default ({ source, loading, uploading, editable, editHandler, files }) =>
                 }}
                 source={{ uri: item.url }}
               >
-                {uploading && uploading.includes(i) ? <ActivityIndicator /> : null}
+                {item.loading ? <ActivityIndicator /> : null}
                 {editable && !item.loading ? (
-                  <Icon
-                    onPress={() => editHandler && editHandler(item, i)}
-                    name={'edit'}
-                    color={'white'}
-                  />
+                  <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+                    <Icon
+                      onPress={() => removeHandler && removeHandler(i)}
+                      name={'remove'}
+                      color={'white'}
+                    />
+                  {
+                    multi &&
+                    <Icon
+                      onPress={() => (editHandler) && editHandler(item)}
+                      name={'add'}
+                      color={'white'}
+                    />
+                  }
+                    <Icon
+                      onPress={() => editHandler && editHandler(item, i)}
+                      name={'edit'}
+                      color={'white'}
+                    />
+                    
+                  </View>
                 ) : null}
               </ImageBackground>
             </View>

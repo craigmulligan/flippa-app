@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FormLabel, FormInput, Button, Icon } from 'react-native-elements'
-import { View } from 'react-native'
+import { View, ScrollView } from 'react-native'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import * as queries from '../apollo/queries'
@@ -23,6 +23,7 @@ const USER_QUERY = gql`
       displayName
       phoneNumber
       file {
+        id
         url
       }
     }
@@ -56,7 +57,7 @@ class Profile extends Component {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <FormLabel>Store Name {this.props.id}</FormLabel>
         <FormInput
           value={this.state.displayName}
@@ -70,15 +71,13 @@ class Profile extends Component {
           placeholder={'PhoneNumber... '}
         />
         <Upload
-          source={{ uri: get(this.props, 'data.User.file.url') }}
-          isUploading={isUploading => {
-            this.setState({ uploading: isUploading })
-          }}
-          uploadHandler={(err, upload) => {
-            if (err) {
-              this.setState({ error: err })
+          multi={false}
+          files={[ get(this.state, 'file') ]}
+          uploadHandler={(error, files) => {
+            if (error) {
+              this.setState({ error })
             } else {
-              this.setState({ fileId: upload.id })
+              this.setState({ fileId: get(files, '[0].id') })
             }
           }}
         />
@@ -127,7 +126,7 @@ class Profile extends Component {
             }
           }}
         />
-      </View>
+      </ScrollView>
     )
   }
 }
